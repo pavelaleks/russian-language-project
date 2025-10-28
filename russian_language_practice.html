@@ -752,19 +752,23 @@
 
         // Функция фильтрации слов по морфологическим признакам
         function filterWordsByMorphology(exerciseType) {
+            console.log('filterWordsByMorphology вызвана для:', exerciseType);
             const cacheKey = exerciseType;
             
             // Проверяем кэш
             if (filteredWordsCache[cacheKey]) {
+                console.log('Используем кэшированные слова:', filteredWordsCache[cacheKey].length);
                 return filteredWordsCache[cacheKey];
             }
             
             if (!morphologyCorpus) {
+                console.log('Корпус не загружен');
                 return [];
             }
             
+            console.log('Фильтруем слова для упражнения:', exerciseType);
             const filteredWords = [];
-            const words = morphologyCorpus.words;
+            const words = morphologyCorpus.metadata.words;
             
             for (const [word, features] of Object.entries(words)) {
                 let include = false;
@@ -1123,19 +1127,32 @@
 
         // Функции для работы с случайными словами из морфологического корпуса
         function generateRandomWords() {
+            console.log('generateRandomWords вызвана');
+            console.log('morphologyCorpus:', morphologyCorpus);
+            
             if (!morphologyCorpus) {
                 console.warn('Морфологический корпус еще не загружен');
+                alert('Корпус слов еще не загружен. Попробуйте обновить страницу.');
                 return;
             }
+            
+            console.log('Структура корпуса:', morphologyCorpus.metadata);
+            console.log('Количество слов в корпусе:', Object.keys(morphologyCorpus.metadata.words).length);
             
             wordCount = parseInt(document.getElementById('wordCountSelect').value);
             currentWords = [];
             
+            console.log('Текущее упражнение:', currentExercise);
+            console.log('Количество слов для генерации:', wordCount);
+            
             // Получаем отфильтрованные слова для текущего упражнения
             const filteredWords = filterWordsByMorphology(currentExercise);
             
+            console.log('Отфильтрованные слова:', filteredWords.length);
+            
             if (filteredWords.length === 0) {
                 console.warn('Нет подходящих слов для упражнения:', currentExercise);
+                alert('Нет подходящих слов для этого упражнения. Попробуйте другое упражнение.');
                 return;
             }
             
@@ -1143,8 +1160,12 @@
             const shuffled = filteredWords.sort(() => 0.5 - Math.random());
             const selectedWords = shuffled.slice(0, wordCount);
             
+            console.log('Выбранные слова:', selectedWords);
+            
             // Извлекаем только слова (без морфологических признаков)
             currentWords = selectedWords.map(item => item.word);
+            
+            console.log('Текущие слова:', currentWords);
             
             // Обновляем данные упражнения
             exerciseData[currentExercise].words = [...currentWords];
