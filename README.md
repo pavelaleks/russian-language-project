@@ -17,7 +17,9 @@
 
 ## 🚀 Демо
 
-**[Попробовать приложение онлайн](https://yourusername.github.io/russian-language-project/)**
+**[Попробовать приложение онлайн](https://pavelaleks.github.io/russian-language-project/)**
+
+**Прямая ссылка на приложение:** [https://pavelaleks.github.io/russian-language-project/](https://pavelaleks.github.io/russian-language-project/)
 
 ## 📊 Статистика корпуса
 
