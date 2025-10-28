@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная проверка правил русского языка (v2.0)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        .studio-name {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .exercise-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .exercise-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .exercise-btn:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .rules-btn {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+            box-shadow: 0 3px 12px rgba(78, 205, 196, 0.3);
+        }
+
+        .rules-btn:hover {
+            background: linear-gradient(135deg, #44a08d, #3d8b7a);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .telegram-link:hover {
+            background: #0066aa !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+        }
+
+        /* Леша Буковкин - главный персонаж сайта */
+        .fixed-lesha {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .fixed-lesha:hover {
+            transform: scale(1.05);
+        }
+
+        .lesha-image {
+            width: 200px;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+        }
+
+        .lesha-info {
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 15px 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            max-width: 250px;
+        }
+
+        .lesha-name {
+            font-weight: 700;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .lesha-title {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .telegram-link-fixed {
+            display: inline-block;
+            background: linear-gradient(135deg, #0088cc, #0066aa);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+        }
+
+        .telegram-link-fixed:hover {
+            background: linear-gradient(135deg, #0066aa, #004d7a);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .header > div {
+                flex-direction: column !important;
+                text-align: center !important;
+            }
+            
+            .header > div > div:last-child {
+                margin-top: 20px;
+            }
+            
+            .header img {
+                width: 80px !important;
+            }
+            
+            .header h1 {
+                font-size: 1.8em !important;
+            }
+            
+            .fixed-lesha {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .lesha-image {
+                width: 120px;
+            }
+            
+            .lesha-info {
+                max-width: 200px;
+                padding: 12px 15px;
+            }
+        }
+
+        .word-input-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .word-input-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .word-input-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .word-input {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .add-word-btn {
+            padding: 12px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .add-word-btn:hover {
+            background: #218838;
+        }
+
+        .exercise-area {
+            min-height: 450px;
+            border: 2px dashed #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .word-bank {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .draggable-word {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: grab;
+            user-select: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            box-shadow: 0 3px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .draggable-word:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .draggable-word.dragging {
+            opacity: 0.7;
+            transform: rotate(3deg) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.5);
+        }
+
+        .delete-word-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            margin-left: 5px;
+        }
+
+        .delete-word-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .word-text {
+            flex: 1;
+        }
+
+        .drop-zones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .drop-zone {
+            min-height: 100px;
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .drop-zone.drag-over {
+            border-color: #007bff;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0, 123, 255, 0.2);
+        }
+
+        .drop-zone h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .dropped-word {
+            background: #28a745;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 5px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .dropped-word:hover {
+            background: #218838;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            min-width: 180px;
+        }
+
+        .check-btn:hover {
+            background: linear-gradient(135deg, #ff5252, #e53935);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .reset-btn {
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .reset-btn:hover {
+            background: #5a6268;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .exercise-selector {
+                flex-direction: column;
+            }
+            
+            .word-input-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .word-input {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>🇷🇺 Интерактивная проверка русского языка</h1>
+                <p>Перетаскивайте слова в правильные категории и проверяйте свои знания!</p>
+                <div class="studio-name">
+                    Студия "Лексикон"
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="exercise-selector">
+                <button class="exercise-btn active" data-exercise="declension">Склонение существительных</button>
+                <button class="exercise-btn" data-exercise="conjugation">Спряжение глаголов</button>
+            </div>
+
+            <div class="word-count-section" style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 10px; color: #333;">🎲 Настройки упражнения</h3>
+                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                    <label style="font-weight: 500;">Количество слов:</label>
+                    <select id="wordCountSelect" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 14px;">
+                        <option value="5">5 слов</option>
+                        <option value="10" selected>10 слов</option>
+                        <option value="15">15 слов</option>
+                        <option value="20">20 слов</option>
+                        <option value="25">25 слов</option>
+                        <option value="30">30 слов</option>
+                    </select>
+                    <button type="button" class="add-word-btn" onclick="generateRandomWords()" style="background: #17a2b8;">🎲 Новые слова</button>
+                    <button type="button" class="rules-btn" onclick="showRules('declension')">📖 Правила склонения</button>
+                    <button type="button" class="rules-btn" onclick="showRules('conjugation')">📖 Правила спряжения</button>
+                </div>
+                <small style="color: #666; margin-top: 10px; display: block;">
+                    💡 Слова выбираются случайно из полного морфологического корпуса OpenCorpora с фильтрацией по грамматическим признакам
+                    <br>
+                    <span id="corpusStatus" style="font-weight: 500;">🔄 Загрузка корпуса OpenCorpora...</span>
+                </small>
+            </div>
+
+
+            <div class="exercise-area" id="exerciseArea">
+                <!-- Содержимое будет генерироваться динамически -->
+            </div>
+
+            <div class="feedback hidden" id="feedback"></div>
+
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+                <button type="button" class="check-btn" onclick="checkAnswers()">✅ Проверить ответы</button>
+                <button type="button" class="check-btn" onclick="clearAllWords()" style="background: #dc3545;">🗑️ Очистить все</button>
+            </div>
+        </div>
+        
+        <div class="footer" style="background: #f8f9fa; padding: 20px; text-align: center; color: #666; border-top: 1px solid #dee2e6;">
+            <p style="margin: 0; font-size: 14px;">
+                © 2025 П.В. Алексеев, г. Горно-Алтайск
+            </p>
+        </div>
+        
+        <!-- Леша Буковкин - главный персонаж сайта -->
+        <div class="fixed-lesha">
+            <img src="Lesha-1.png" alt="Леша Буковкин" class="lesha-image">
+            <div class="lesha-info">
+                <div class="lesha-name">Леша Буковкин</div>
+                <div class="lesha-title">ваш виртуальный помощник</div>
+                <a href="https://t.me/lexicon_studio" target="_blank" class="telegram-link-fixed">
+                    📱 Telegram канал
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentExercise = 'declension';
+        let draggedElement = null;
+        let wordCount = 10; // Количество слов для упражнения
+        let currentWords = []; // Текущие слова в упражнении
+        let morphologyCorpus = null; // Полный морфологический корпус
+        let filteredWordsCache = {}; // Кэш отфильтрованных слов для производительности
+
+        // Сохраняем исходные данные для восстановления
+        const originalExerciseData = {
+            declension: {
+                title: 'Склонение существительных',
+                words: ['стол', 'окно', 'мама', 'папа', 'книга', 'ручка', 'дом', 'дерево', 'кофе', 'пальто', 'кино', 'такси', 'время', 'имя', 'племя', 'знамя'],
+                categories: [
+                    { name: '1-е склонение' },
+                    { name: '2-е склонение' },
+                    { name: '3-е склонение' },
+                    { name: 'Несклоняемые существительные' },
+                    { name: 'Разносклоняемые существительные' }
+                ],
+                answers: {
+                    'папа': 0, 'мама': 0, 'книга': 0,
+                    'стол': 1, 'дом': 1, 'окно': 1, 'дерево': 1,
+                    'ручка': 2,
+                    'кофе': 3, 'пальто': 3, 'кино': 3, 'такси': 3,
+                    'время': 4, 'имя': 4, 'племя': 4, 'знамя': 4
+                }
+            },
+            conjugation: {
+                title: 'Спряжение глаголов',
+                words: ['читать', 'писать', 'говорить', 'смотреть', 'слушать', 'думать', 'работать', 'учиться'],
+                categories: [
+                    { name: '1-е спряжение' },
+                    { name: '2-е спряжение' }
+                ],
+                answers: {
+                    'читать': 0, 'писать': 0, 'слушать': 0, 'работать': 0,
+                    'говорить': 1, 'смотреть': 1, 'думать': 1, 'учиться': 1
+                }
+            }
+        };
+
+
+        function determineGender(genitive) {
+            if (genitive.endsWith('а') || genitive.endsWith('я')) return 'masculine';
+            if (genitive.endsWith('ы') || genitive.endsWith('и')) return 'feminine';
+            return 'unknown';
+        }
+
+        function determineDeclension(word, genitive) {
+            const wordLower = word.toLowerCase();
+            
+            // Разносклоняемые существительные (10 слов на -мя)
+            const heterocliticWords = ['время', 'имя', 'племя', 'знамя', 'пламя', 'стремя', 'темя', 'семя', 'бремя', 'вымя'];
+            if (heterocliticWords.includes(wordLower)) {
+                return 'heteroclitic';
+            }
+            
+            // Несклоняемые существительные
+            const indeclinableWords = ['кофе', 'пальто', 'кино', 'такси', 'метро', 'кафе', 'меню', 'алоэ', 'какао', 'радио', 'шоу', 'казино', 'кабаре', 'бюро', 'депо', 'фойе', 'ателье', 'кафе', 'пенсне', 'колье'];
+            if (indeclinableWords.includes(wordLower)) {
+                return 'indeclinable';
+            }
+            
+            // Несклоняемые по окончаниям
+            if (wordLower.endsWith('о') && !wordLower.endsWith('мя')) {
+                // Проверяем, не несклоняемое ли это
+                const indeclinableEndings = ['кофе', 'какао', 'радио', 'метро', 'кино', 'кабаре', 'бюро', 'депо', 'фойе', 'ателье', 'кафе', 'пенсне', 'колье'];
+                if (indeclinableEndings.includes(wordLower)) {
+                    return 'indeclinable';
+                }
+                return '2nd';
+            }
+            
+            if (wordLower.endsWith('а') || wordLower.endsWith('я')) return '1st';
+            if (wordLower.endsWith('е') && !wordLower.endsWith('мя')) return '2nd';
+            if (wordLower.endsWith('ь')) return '3rd';
+            
+            return '1st'; // По умолчанию
+        }
+
+        function determineConjugation(word) {
+            const infinitive = word.toLowerCase();
+            
+            // 2-е спряжение
+            const secondConjugationEndings = ['ить', 'ать', 'ять', 'еть', 'уть', 'оть'];
+            const secondConjugationExceptions = ['брить', 'стелить', 'зиждиться'];
+            
+            if (secondConjugationExceptions.includes(infinitive)) {
+                return '2nd';
+            }
+            
+            for (let ending of secondConjugationEndings) {
+                if (infinitive.endsWith(ending)) {
+                    return '2nd';
+                }
+            }
+            
+            // 1-е спряжение (по умолчанию)
+            return '1st';
+        }
+
+        function determineCorrectCategory(word, exerciseType) {
+            console.log(`Определяем категорию для слова "${word}" в упражнении "${exerciseType}"`);
+            
+            // Определяем правильную категорию на основе морфологического корпуса
+            let analysis = {
+                partOfSpeech: 'unknown',
+                declension: 'unknown',
+                conjugation: 'unknown'
+            };
+            
+            // Сначала проверяем в морфологическом корпусе
+            if (morphologyCorpus && morphologyCorpus.metadata.words[word]) {
+                const features = morphologyCorpus.metadata.words[word];
+                analysis.partOfSpeech = features.pos ? features.pos.toLowerCase() : 'unknown';
+                analysis.declension = features.declension || 'unknown';
+                analysis.conjugation = features.conjugation || 'unknown';
+                console.log(`Найдено в корпусе:`, features);
+                console.log(`Преобразованная часть речи: "${analysis.partOfSpeech}"`);
+                
+                // Корпус уже исправлен, но оставляем резервные правила на случай старых корпусов
+                if (features.gender === 'MASCULINE' && 
+                    features.pos === 'NOUN' &&
+                    !word.endsWith('а') && !word.endsWith('я') && 
+                    analysis.declension === '1st') {
+                    analysis.declension = '2nd';
+                    console.log(`Резервное исправление для "${word}" (муж.р. без -а/-я) на 2-е`);
+                }
+            } else {
+                console.log(`Слово "${word}" не найдено в корпусе, используем правила`);
+                // Если не найдено в корпусе, используем простые правила
+                if (word.endsWith('а') || word.endsWith('я')) {
+                    analysis.partOfSpeech = 'noun';
+                    analysis.declension = '1st';
+                } else if (word.endsWith('о') || word.endsWith('е')) {
+                    analysis.partOfSpeech = 'noun';
+                    analysis.declension = '2nd';
+                } else if (word.endsWith('ь')) {
+                    analysis.partOfSpeech = 'noun';
+                    analysis.declension = '3rd';
+                } else if (word.endsWith('ть') || word.endsWith('ти')) {
+                    analysis.partOfSpeech = 'verb';
+                    analysis.conjugation = '1st';
+                } else if (word.endsWith('ить') || word.endsWith('ать') || word.endsWith('ять')) {
+                    analysis.partOfSpeech = 'verb';
+                    analysis.conjugation = '2nd';
+                } else {
+                    // По умолчанию считаем существительным 1-го склонения
+                    analysis.partOfSpeech = 'noun';
+                    analysis.declension = '1st';
+                }
+            }
+            
+            console.log(`Анализ слова "${word}":`, analysis);
+            
+            let result = -1;
+            console.log(`Тип упражнения: "${exerciseType}", склонение: "${analysis.declension}"`);
+            switch (exerciseType) {
+                case 'declension':
+                    if (analysis.declension === '1st') result = 0;
+                    if (analysis.declension === '2nd') result = 1;
+                    if (analysis.declension === '3rd') result = 2;
+                    if (analysis.declension === 'indeclinable') result = 3;
+                    if (analysis.declension === 'heteroclitic') result = 4;
+                    console.log(`Для склонения "${analysis.declension}" результат: ${result}`);
+                    break;
+                case 'conjugation':
+                    if (analysis.conjugation === '1st') result = 0;
+                    if (analysis.conjugation === '2nd') result = 1;
+                    break;
+                case 'parts-of-speech':
+                    if (analysis.partOfSpeech === 'noun') result = 0;
+                    if (analysis.partOfSpeech === 'adjective') result = 1;
+                    if (analysis.partOfSpeech === 'verb') result = 2;
+                    if (analysis.partOfSpeech === 'adverb') result = 3;
+                    if (analysis.partOfSpeech === 'conjunction') result = 4;
+                    break;
+            }
+            
+            console.log(`Результат для "${word}": категория ${result}`);
+            return result;
+        }
+
+        // Данные для упражнений (копия исходных данных)
+        let exerciseData = JSON.parse(JSON.stringify(originalExerciseData));
+
+        // Функция загрузки полного морфологического корпуса OpenCorpora
+        async function loadMorphologyCorpus() {
+            try {
+                console.log('🔄 Загружаем исправленный корпус...');
+                const response = await fetch('opencorpora.json?v=3&t=' + Date.now());
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const corpus = await response.json();
+                
+                if (!corpus.metadata || !corpus.metadata.words) {
+                    throw new Error('Неправильная структура корпуса');
+                }
+                
+                morphologyCorpus = corpus;
+                
+                console.log(`✅ Загружен исправленный корпус: ${corpus.metadata.total_words} слов`);
+                console.log(`Источник корпуса: ${corpus.metadata.source}`);
+                console.log(`Версия корпуса: ${corpus.metadata.revision}`);
+                
+                // Обновляем статус в интерфейсе
+                const statusElement = document.getElementById('corpusStatus');
+                if (statusElement) {
+                    statusElement.textContent = `✅ Исправленный корпус загружен (${corpus.metadata.total_words} слов)`;
+                    statusElement.style.color = '#28a745';
+                }
+                
+                return true;
+                
+            } catch (error) {
+                console.error('❌ Ошибка загрузки корпуса:', error.message);
+                
+                // Резервный корпус
+                morphologyCorpus = {
+                    metadata: {
+                        source: 'Reserve',
+                        total_words: 100,
+                        words: {
+                            'стол': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
+                            'дом': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
+                            'мама': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'ANIMATE' },
+                            'папа': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'ANIMATE' },
+                            'книга': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'INANIMATE' },
+                            'ручка': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'INANIMATE' },
+                            'окно': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
+                            'дерево': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
+                            'ночь': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '3rd', animacy: 'INANIMATE' },
+                            'мышь': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '3rd', animacy: 'ANIMATE' },
+                            'кофе': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'indeclinable', animacy: 'INANIMATE' },
+                            'пальто': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'indeclinable', animacy: 'INANIMATE' },
+                            'время': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'heteroclitic', animacy: 'INANIMATE' },
+                            'имя': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'heteroclitic', animacy: 'INANIMATE' },
+                            'читать': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '1st', aspect: 'IMPERFECTIVE', transitivity: 'TRANSITIVE' },
+                            'писать': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '1st', aspect: 'IMPERFECTIVE', transitivity: 'TRANSITIVE' },
+                            'говорить': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '2nd', aspect: 'IMPERFECTIVE', transitivity: 'INTRANSITIVE' },
+                            'смотреть': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '2nd', aspect: 'IMPERFECTIVE', transitivity: 'TRANSITIVE' },
+                            'красивый': { pos: 'ADJECTIVE', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE' },
+                            'хороший': { pos: 'ADJECTIVE', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE' },
+                            'быстро': { pos: 'ADVERB' },
+                            'медленно': { pos: 'ADVERB' },
+                            'и': { pos: 'CONJUNCTION' },
+                            'а': { pos: 'CONJUNCTION' }
+                        }
+                    }
+                };
+                
+                const statusElement = document.getElementById('corpusStatus');
+                if (statusElement) {
+                    statusElement.textContent = '⚠️ Используются резервные данные (100 слов)';
+                    statusElement.style.color = '#ffc107';
+                }
+                
+                return false;
+            }
+        }
+
+        // Функция фильтрации слов по морфологическим признакам
+        function filterWordsByMorphology(exerciseType) {
+            console.log('filterWordsByMorphology вызвана для:', exerciseType);
+            const cacheKey = exerciseType;
+            
+            // Проверяем кэш
+            if (filteredWordsCache[cacheKey]) {
+                console.log('Используем кэшированные слова:', filteredWordsCache[cacheKey].length);
+                return filteredWordsCache[cacheKey];
+            }
+            
+            if (!morphologyCorpus) {
+                console.log('Корпус не загружен');
+                return [];
+            }
+            
+            console.log('Фильтруем слова для упражнения:', exerciseType);
+            const filteredWords = [];
+            const words = morphologyCorpus.metadata.words;
+            
+            for (const [word, features] of Object.entries(words)) {
+                let include = false;
+                
+                switch (exerciseType) {
+                    case 'declension':
+                        // Берем только существительные в именительном падеже единственного числа
+                        include = features.pos === 'NOUN' && 
+                                 features.case === 'NOMINATIVE' && 
+                                 features.number === 'SINGULAR';
+                        break;
+                        
+                    case 'conjugation':
+                        // Берем только глаголы в инфинитиве
+                        include = features.pos === 'VERB' && 
+                                 features.mood === 'INFINITIVE';
+                        break;
+                        
+                    case 'parts-of-speech':
+                        // Берем слова в базовой форме
+                        include = (features.pos === 'NOUN' && features.case === 'NOMINATIVE' && features.number === 'SINGULAR') ||
+                                 (features.pos === 'VERB' && features.mood === 'INFINITIVE') ||
+                                 (features.pos === 'ADJECTIVE' && features.case === 'NOMINATIVE' && features.number === 'SINGULAR') ||
+                                 (features.pos === 'ADVERB') ||
+                                 (features.pos === 'CONJUNCTION');
+                        break;
+                        
+                    case 'cases':
+                        // Берем только существительные в именительном падеже единственного числа
+                        include = features.pos === 'NOUN' && 
+                                 features.case === 'NOMINATIVE' && 
+                                 features.number === 'SINGULAR';
+                        break;
+                }
+                
+                if (include) {
+                    filteredWords.push({
+                        word: word,
+                        features: features
+                    });
+                }
+            }
+            
+            // Кэшируем результат
+            filteredWordsCache[cacheKey] = filteredWords;
+            
+            console.log(`Отфильтровано ${filteredWords.length} слов для упражнения: ${exerciseType}`);
+            return filteredWords;
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', async function() {
+            setupExerciseButtons();
+            
+            
+            // Загружаем морфологический корпус
+            const corpusLoaded = await loadMorphologyCorpus();
+            if (corpusLoaded) {
+                console.log('Морфологический корпус успешно загружен');
+            } else {
+                console.log('Ошибка загрузки морфологического корпуса');
+            }
+            
+            // Генерируем упражнение сначала
+            generateExercise();
+            
+            // Затем генерируем случайные слова
+            generateRandomWords();
+        });
+
+        function setupExerciseButtons() {
+            const buttons = document.querySelectorAll('.exercise-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    buttons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentExercise = this.dataset.exercise;
+                    
+                    // Генерируем упражнение при смене типа
+                    generateExercise();
+                    
+                    // Генерируем новые случайные слова при смене упражнения (если корпус загружен)
+                    if (morphologyCorpus) {
+                        generateRandomWords();
+                    }
+                });
+            });
+        }
+
+        function generateExercise() {
+            const exercise = exerciseData[currentExercise];
+            const exerciseArea = document.getElementById('exerciseArea');
+            
+            let html = `
+                <h2 style="text-align: center; margin-bottom: 20px; color: #333;">
+                    ${exercise.title}
+                </h2>
+                <div class="word-bank" id="wordBank">
+            `;
+
+            // Добавляем слова из упражнения
+            exercise.words.forEach(word => {
+                html += `
+                    <div class="draggable-word" draggable="true" data-word="${word}" data-original="true">
+                        <span class="word-text">${word}</span>
+                        <button class="delete-word-btn" onclick="deleteWord('${word}', true)" title="Удалить слово">×</button>
+                    </div>
+                `;
+            });
+
+
+            html += '</div><div class="drop-zones">';
+
+            // Добавляем зоны для перетаскивания
+            exercise.categories.forEach((category, index) => {
+                html += `
+                    <div class="drop-zone" data-category="${index}">
+                        <h4>${category.name}</h4>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            exerciseArea.innerHTML = html;
+
+            setupDragAndDrop();
+        }
+
+        function setupDragAndDrop() {
+            const draggableWords = document.querySelectorAll('.draggable-word');
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            draggableWords.forEach(word => {
+                word.addEventListener('dragstart', handleDragStart);
+                word.addEventListener('dragend', handleDragEnd);
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('drop', handleDrop);
+                zone.addEventListener('dragenter', handleDragEnter);
+                zone.addEventListener('dragleave', handleDragLeave);
+            });
+        }
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.outerHTML);
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            draggedElement = null;
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+
+            if (draggedElement) {
+                const word = draggedElement.dataset.word;
+                const categoryIndex = this.dataset.category;
+                
+                // Создаем элемент в зоне
+                const droppedWord = document.createElement('div');
+                droppedWord.className = 'dropped-word';
+                droppedWord.textContent = word;
+                droppedWord.dataset.word = word;
+                droppedWord.dataset.category = categoryIndex;
+                droppedWord.onclick = () => removeWord(droppedWord);
+                
+                this.appendChild(droppedWord);
+                draggedElement.remove();
+            }
+        }
+
+        function removeWord(element) {
+            const word = element.dataset.word;
+            const wordBank = document.getElementById('wordBank');
+            
+            // Определяем, было ли это исходное слово или пользовательское
+            const isOriginal = exerciseData[currentExercise].words.includes(word);
+            
+            // Возвращаем слово в банк
+            const newWord = document.createElement('div');
+            newWord.className = 'draggable-word';
+            newWord.draggable = true;
+            newWord.dataset.word = word;
+            newWord.dataset.original = isOriginal;
+            newWord.innerHTML = `
+                <span class="word-text">${word}</span>
+                <button class="delete-word-btn" onclick="deleteWord('${word}', ${isOriginal})" title="Удалить слово">×</button>
+            `;
+            newWord.addEventListener('dragstart', handleDragStart);
+            newWord.addEventListener('dragend', handleDragEnd);
+            
+            wordBank.appendChild(newWord);
+            element.remove();
+        }
+
+
+        function deleteWord(word, isOriginal) {
+            if (confirm(`Удалить слово "${word}" из упражнения?`)) {
+                if (isOriginal) {
+                    // Удаляем из исходного списка упражнения
+                    const exercise = exerciseData[currentExercise];
+                    const index = exercise.words.indexOf(word);
+                    if (index > -1) {
+                        exercise.words.splice(index, 1);
+                    }
+                    
+                    // Также удаляем из ответов
+                    if (exercise.answers[word] !== undefined) {
+                        delete exercise.answers[word];
+                    }
+                } else {
+                }
+                
+                // Перегенерируем упражнение
+                generateExercise();
+            }
+        }
+
+
+        function checkAnswers() {
+            const exercise = exerciseData[currentExercise];
+            const droppedWords = document.querySelectorAll('.dropped-word');
+            let correct = 0;
+            let total = 0;
+            let feedback = '';
+
+            // Проверяем каждое слово
+            for (let wordElement of droppedWords) {
+                const word = wordElement.dataset.word;
+                const category = parseInt(wordElement.dataset.category);
+                
+                // Сначала проверяем предопределенные ответы
+                let correctCategory = exercise.answers[word];
+                
+                // Если ответа нет в базе, используем автоматический анализ
+                if (correctCategory === undefined) {
+                    correctCategory = determineCorrectCategory(word, currentExercise);
+                }
+                
+                total++;
+                console.log(`Проверяем слово "${word}": пользователь выбрал категорию ${category}, правильная категория ${correctCategory}`);
+                if (correctCategory === category) {
+                    correct++;
+                    wordElement.style.background = '#28a745';
+                } else {
+                    wordElement.style.background = '#dc3545';
+                    if (correctCategory >= 0) {
+                    feedback += `❌ "${word}" должно быть в категории "${exercise.categories[correctCategory].name}"\n`;
+                    } else {
+                        feedback += `❓ "${word}" - не удалось определить правильную категорию\n`;
+                }
+                }
+            }
+
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            const feedbackElement = document.getElementById('feedback');
+            
+            if (percentage === 100) {
+                feedbackElement.className = 'feedback correct';
+                feedbackElement.textContent = `🎉 Отлично! Все ответы правильные! (${correct}/${total})`;
+            } else if (percentage >= 70) {
+                feedbackElement.className = 'feedback correct';
+                feedbackElement.textContent = `👍 Хорошо! Правильных ответов: ${correct}/${total} (${percentage}%)`;
+            } else {
+                feedbackElement.className = 'feedback incorrect';
+                feedbackElement.textContent = `📚 Есть ошибки. Правильных ответов: ${correct}/${total} (${percentage}%)`;
+            }
+
+            if (feedback) {
+                feedbackElement.textContent += '\n\n' + feedback;
+            }
+
+            feedbackElement.classList.remove('hidden');
+        }
+
+        // Функции для работы с случайными словами из морфологического корпуса
+        function generateRandomWords() {
+            console.log('generateRandomWords вызвана');
+            console.log('morphologyCorpus:', morphologyCorpus);
+            
+            if (!morphologyCorpus) {
+                console.warn('Морфологический корпус еще не загружен');
+                alert('Корпус слов еще не загружен. Попробуйте обновить страницу.');
+                return;
+            }
+            
+            console.log('Структура корпуса:', morphologyCorpus.metadata);
+            console.log('Количество слов в корпусе:', Object.keys(morphologyCorpus.metadata.words).length);
+            
+            wordCount = parseInt(document.getElementById('wordCountSelect').value);
+            currentWords = [];
+            
+            console.log('Текущее упражнение:', currentExercise);
+            console.log('Количество слов для генерации:', wordCount);
+            
+            // Получаем отфильтрованные слова для текущего упражнения
+            const filteredWords = filterWordsByMorphology(currentExercise);
+            
+            console.log('Отфильтрованные слова:', filteredWords.length);
+            
+            if (filteredWords.length === 0) {
+                console.warn('Нет подходящих слов для упражнения:', currentExercise);
+                alert('Нет подходящих слов для этого упражнения. Попробуйте другое упражнение.');
+                return;
+            }
+            
+            // Случайно выбираем нужное количество слов
+            const shuffled = filteredWords.sort(() => 0.5 - Math.random());
+            const selectedWords = shuffled.slice(0, wordCount);
+            
+            console.log('Выбранные слова:', selectedWords);
+            
+            // Извлекаем только слова (без морфологических признаков)
+            currentWords = selectedWords.map(item => item.word);
+            
+            console.log('Текущие слова:', currentWords);
+            
+            // Обновляем данные упражнения
+            exerciseData[currentExercise].words = [...currentWords];
+            
+            // Очищаем пользовательские слова
+            
+            // Перегенерируем упражнение для обновления интерфейса
+            generateExercise();
+            
+            console.log(`Сгенерировано ${currentWords.length} случайных слов из морфологического корпуса:`, currentWords);
+            console.log(`Доступно ${filteredWords.length} слов для упражнения "${currentExercise}"`);
+        }
+
+        function clearAllWords() {
+            if (confirm('Очистить все слова из упражнения?')) {
+                currentWords = [];
+                customWords = [];
+                exerciseData[currentExercise].words = [];
+                
+                // Очищаем результаты проверки
+                const feedbackElement = document.getElementById('feedback');
+                if (feedbackElement) {
+                    feedbackElement.classList.add('hidden');
+                    feedbackElement.innerHTML = '';
+                }
+                
+                // Очищаем результаты упражнения
+                const resultsElement = document.getElementById('exerciseResults');
+                if (resultsElement) {
+                    resultsElement.innerHTML = '';
+                }
+                
+                generateExercise();
+            }
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Функция для показа правил
+        function showRules(type) {
+            let rulesContent = '';
+            
+            if (type === 'declension') {
+                rulesContent = `
+                    <div style="background: white; padding: 20px; border-radius: 10px; max-width: 700px; margin: 10px auto; box-shadow: 0 8px 25px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto;">
+                        <h2 style="color: #333; margin-bottom: 15px; text-align: center; font-size: 1.4em;">📚 Правила склонения существительных</h2>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #007bff; margin-bottom: 8px; font-size: 1.1em;">1-е склонение</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Мужской род:</strong> существительные на -а, -я (папа, дядя, юноша)</p>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Женский род:</strong> существительные на -а, -я (мама, тётя, земля, вода)</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: мама, папа, книга, ручка, земля, вода</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #28a745; margin-bottom: 8px; font-size: 1.1em;">2-е склонение</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Мужской род:</strong> существительные с нулевым окончанием (стол, дом, конь)</p>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Средний род:</strong> существительные на -о, -е (окно, поле, море)</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: стол, дом, окно, дерево, поле, море</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #dc3545; margin-bottom: 8px; font-size: 1.1em;">3-е склонение</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Женский род:</strong> существительные на -ь (ночь, мышь, рожь)</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: ночь, мышь, рожь, печь, дочь, ложь</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #6f42c1; margin-bottom: 8px; font-size: 1.1em;">Несклоняемые существительные</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;">Не изменяются по падежам (кофе, пальто, кино, метро)</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: кофе, пальто, кино, метро, такси, меню</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #fd7e14; margin-bottom: 8px; font-size: 1.1em;">Разносклоняемые существительные</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;">Склоняются по-особому (путь, время, имя, племя)</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: путь, время, имя, племя, знамя, пламя</p>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button type="button" onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                                Закрыть
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'conjugation') {
+                rulesContent = `
+                    <div style="background: white; padding: 20px; border-radius: 10px; max-width: 700px; margin: 10px auto; box-shadow: 0 8px 25px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto;">
+                        <h2 style="color: #333; margin-bottom: 15px; text-align: center; font-size: 1.4em;">📚 Алгоритм определения спряжения глаголов</h2>
+                        
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h3 style="color: #007bff; margin-bottom: 10px; font-size: 1.1em;">🔍 Алгоритм определения спряжения:</h3>
+                            <ol style="line-height: 1.4; font-size: 0.9em;">
+                                <li><strong>Поставьте глагол в форму 3 лица настоящего или будущего времени</strong></li>
+                                <li><strong>Если окончание ударное:</strong> Е(Ё), У, Ю → 1 спр.; И, А, Я → 2 спр.</li>
+                                <li><strong>Если окончание безударное:</strong> поставьте глагол в неопределённую форму</li>
+                                <li><strong>Проверьте инфинитив:</strong></li>
+                                <ul style="margin-top: 8px; font-size: 0.85em;">
+                                    <li><strong>1-е спряжение:</strong> -ать, -ять, -ыть, -уть, -оть, -ти, -чь + исключения: брить, стелить, зиждиться, выпить, уничтожить, жить</li>
+                                    <li><strong>2-е спряжение:</strong> -ить + исключения: слышать, дышать, держать, гнать, терпеть, вертеть, обидеть, зависеть, ненавидеть, видеть, смотреть, лежать</li>
+                                </ul>
+                            </ol>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #28a745; margin-bottom: 8px; font-size: 1.1em;">1-е спряжение</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Окончания:</strong> -у/-ю, -ешь/-ёшь, -ет/-ёт, -ем/-ём, -ете/-ёте, -ут/-ют</p>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Инфинитивы:</strong> -ать, -ять, -ыть, -уть, -оть, -ти, -чь</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: читать, писать, работать, жить, моет, бреет, кроют</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #dc3545; margin-bottom: 8px; font-size: 1.1em;">2-е спряжение</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Окончания:</strong> -у/-ю, -ишь, -ит, -им, -ите, -ат/-ят</p>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Инфинитивы:</strong> -ить + исключения</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: говорить, смотреть, слышать, дышать, держать, видеть, лежать</p>
+                        </div>
+                        
+                        <div style="background: #fff3cd; padding: 12px; border-radius: 6px; margin-bottom: 15px;">
+                            <h4 style="color: #856404; margin-bottom: 8px; font-size: 1em;">⚠️ Важно помнить:</h4>
+                            <p style="margin-bottom: 5px; color: #856404; font-size: 0.85em;">• Приставка <strong>вы-</strong> перетягивает ударение</p>
+                            <p style="margin-bottom: 5px; color: #856404; font-size: 0.85em;">• Глаголы <strong>есть, дать, хотеть, бежать</strong> - разноспрягаемые</p>
+                            <p style="color: #856404; font-size: 0.85em;">• В повелительном наклонении всегда суффикс <strong>-и-</strong></p>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button type="button" onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                                Закрыть
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Создаем модальное окно
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            `;
+            modal.innerHTML = rulesContent;
+            modal.id = 'rulesModal';
+            
+            document.body.appendChild(modal);
+        }
+        
+        function closeRules() {
+            const modal = document.getElementById('rulesModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+    </script>
+</body>
+</html>
