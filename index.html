@@ -72,6 +72,24 @@
             transform: translateY(-2px);
         }
 
+        .rules-btn {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .rules-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.3);
+        }
+
         .exercise-btn.active {
             background: #007bff;
             color: white;
@@ -334,8 +352,8 @@
             <div class="exercise-selector">
                 <button class="exercise-btn active" data-exercise="declension">Склонение существительных</button>
                 <button class="exercise-btn" data-exercise="conjugation">Спряжение глаголов</button>
-                <button class="exercise-btn" data-exercise="parts-of-speech">Части речи</button>
-                <button class="exercise-btn" data-exercise="cases">Падежи</button>
+                <button class="rules-btn" onclick="showRules('declension')">📖 Правила склонения</button>
+                <button class="rules-btn" onclick="showRules('conjugation')">📖 Правила спряжения</button>
             </div>
 
             <div class="word-count-section" style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
@@ -411,40 +429,6 @@
                 answers: {
                     'читать': 0, 'писать': 0, 'слушать': 0, 'работать': 0,
                     'говорить': 1, 'смотреть': 1, 'думать': 1, 'учиться': 1
-                }
-            },
-            'parts-of-speech': {
-                title: 'Части речи',
-                words: ['красивый', 'быстро', 'дом', 'читать', 'и', 'очень', 'книга', 'хорошо'],
-                categories: [
-                    { name: 'Существительное', examples: 'дом, книга' },
-                    { name: 'Прилагательное', examples: 'красивый, хороший' },
-                    { name: 'Глагол', examples: 'читать, писать' },
-                    { name: 'Наречие', examples: 'быстро, хорошо' },
-                    { name: 'Союз', examples: 'и, а, но' }
-                ],
-                answers: {
-                    'дом': 0, 'книга': 0,
-                    'красивый': 1,
-                    'читать': 2,
-                    'быстро': 3, 'хорошо': 3,
-                    'и': 4, 'очень': 4
-                }
-            },
-            cases: {
-                title: 'Падежи',
-                words: ['дом', 'книга', 'мама', 'окно', 'ручка', 'дерево', 'папа', 'стол'],
-                categories: [
-                    { name: 'Именительный падеж', examples: 'кто? что?' },
-                    { name: 'Родительный падеж', examples: 'кого? чего?' },
-                    { name: 'Дательный падеж', examples: 'кому? чему?' },
-                    { name: 'Винительный падеж', examples: 'кого? что?' },
-                    { name: 'Творительный падеж', examples: 'кем? чем?' },
-                    { name: 'Предложный падеж', examples: 'о ком? о чём?' }
-                ],
-                answers: {
-                    'дом': 0, 'книга': 0, 'мама': 0, 'окно': 0,
-                    'ручка': 1, 'дерево': 1, 'папа': 1, 'стол': 1
                 }
             }
         };
@@ -1072,6 +1056,131 @@
                 [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
             return shuffled;
+        }
+
+        // Функция для показа правил
+        function showRules(type) {
+            let rulesContent = '';
+            
+            if (type === 'declension') {
+                rulesContent = `
+                    <div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <h2 style="color: #333; margin-bottom: 20px; text-align: center;">📚 Правила склонения существительных</h2>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h3 style="color: #007bff; margin-bottom: 15px;">1-е склонение</h3>
+                            <p style="margin-bottom: 10px;"><strong>Мужской род:</strong> существительные на -а, -я (папа, дядя, юноша)</p>
+                            <p style="margin-bottom: 10px;"><strong>Женский род:</strong> существительные на -а, -я (мама, тётя, земля, вода)</p>
+                            <p style="color: #666; font-style: italic;">Примеры: мама, папа, книга, ручка, земля, вода</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h3 style="color: #28a745; margin-bottom: 15px;">2-е склонение</h3>
+                            <p style="margin-bottom: 10px;"><strong>Мужской род:</strong> существительные с нулевым окончанием (стол, дом, конь)</p>
+                            <p style="margin-bottom: 10px;"><strong>Средний род:</strong> существительные на -о, -е (окно, поле, море)</p>
+                            <p style="color: #666; font-style: italic;">Примеры: стол, дом, окно, дерево, поле, море</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h3 style="color: #dc3545; margin-bottom: 15px;">3-е склонение</h3>
+                            <p style="margin-bottom: 10px;"><strong>Женский род:</strong> существительные на -ь (ночь, мышь, рожь)</p>
+                            <p style="color: #666; font-style: italic;">Примеры: ночь, мышь, рожь, печь, дочь, ложь</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h3 style="color: #6f42c1; margin-bottom: 15px;">Несклоняемые существительные</h3>
+                            <p style="margin-bottom: 10px;">Не изменяются по падежам (кофе, пальто, кино, метро)</p>
+                            <p style="color: #666; font-style: italic;">Примеры: кофе, пальто, кино, метро, такси, меню</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h3 style="color: #fd7e14; margin-bottom: 15px;">Разносклоняемые существительные</h3>
+                            <p style="margin-bottom: 10px;">Склоняются по-особому (путь, время, имя, племя)</p>
+                            <p style="color: #666; font-style: italic;">Примеры: путь, время, имя, племя, знамя, пламя</p>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 30px;">
+                            <button onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-size: 16px;">
+                                Закрыть
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'conjugation') {
+                rulesContent = `
+                    <div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <h2 style="color: #333; margin-bottom: 20px; text-align: center;">📚 Алгоритм определения спряжения глаголов</h2>
+                        
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
+                            <h3 style="color: #007bff; margin-bottom: 15px;">🔍 Алгоритм определения спряжения:</h3>
+                            <ol style="line-height: 1.6;">
+                                <li><strong>Поставьте глагол в форму 3 лица настоящего или будущего времени</strong></li>
+                                <li><strong>Если окончание ударное:</strong> Е(Ё), У, Ю → 1 спр.; И, А, Я → 2 спр.</li>
+                                <li><strong>Если окончание безударное:</strong> поставьте глагол в неопределённую форму</li>
+                                <li><strong>Проверьте инфинитив:</strong></li>
+                                <ul style="margin-top: 10px;">
+                                    <li><strong>1-е спряжение:</strong> -ать, -ять, -ыть, -уть, -оть, -ти, -чь + исключения: брить, стелить, зиждиться</li>
+                                    <li><strong>2-е спряжение:</strong> -ить + исключения: слышать, дышать, держать, гнать, терпеть, вертеть, обидеть, зависеть, ненавидеть, видеть, смотреть</li>
+                                </ul>
+                            </ol>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h3 style="color: #28a745; margin-bottom: 15px;">1-е спряжение</h3>
+                            <p style="margin-bottom: 10px;"><strong>Окончания:</strong> -у/-ю, -ешь/-ёшь, -ет/-ёт, -ем/-ём, -ете/-ёте, -ут/-ют</p>
+                            <p style="margin-bottom: 10px;"><strong>Инфинитивы:</strong> -ать, -ять, -ыть, -уть, -оть, -ти, -чь</p>
+                            <p style="color: #666; font-style: italic;">Примеры: читать, писать, работать, жить, моет, бреет, кроют</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h3 style="color: #dc3545; margin-bottom: 15px;">2-е спряжение</h3>
+                            <p style="margin-bottom: 10px;"><strong>Окончания:</strong> -у/-ю, -ишь, -ит, -им, -ите, -ат/-ят</p>
+                            <p style="margin-bottom: 10px;"><strong>Инфинитивы:</strong> -ить + исключения</p>
+                            <p style="color: #666; font-style: italic;">Примеры: говорить, смотреть, слышать, дышать, держать, видеть</p>
+                        </div>
+                        
+                        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 25px;">
+                            <h4 style="color: #856404; margin-bottom: 10px;">⚠️ Важно помнить:</h4>
+                            <p style="margin-bottom: 8px; color: #856404;">• Приставка <strong>вы-</strong> перетягивает ударение</p>
+                            <p style="margin-bottom: 8px; color: #856404;">• Глаголы <strong>есть, дать, хотеть, бежать</strong> - разноспрягаемые</p>
+                            <p style="color: #856404;">• В повелительном наклонении всегда суффикс <strong>-и-</strong></p>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 30px;">
+                            <button onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-size: 16px;">
+                                Закрыть
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Создаем модальное окно
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            `;
+            modal.innerHTML = rulesContent;
+            modal.id = 'rulesModal';
+            
+            document.body.appendChild(modal);
+        }
+        
+        function closeRules() {
+            const modal = document.getElementById('rulesModal');
+            if (modal) {
+                modal.remove();
+            }
         }
 
     </script>
