@@ -28,20 +28,56 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px;
+            padding: 40px 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: -0.02em;
         }
 
         .header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        .studio-name {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 25px;
             font-size: 1.2em;
-            opacity: 0.9;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .main-content {
@@ -92,10 +128,108 @@
             box-shadow: 0 8px 20px rgba(78, 205, 196, 0.3);
         }
 
-        .exercise-btn.active {
-            background: linear-gradient(135deg, #28a745, #1e7e34);
+        .telegram-link:hover {
+            background: #0066aa !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+        }
+
+        /* Леша Буковкин - главный персонаж сайта */
+        .fixed-lesha {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .fixed-lesha:hover {
+            transform: scale(1.05);
+        }
+
+        .lesha-image {
+            width: 200px;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+        }
+
+        .lesha-info {
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 15px 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            max-width: 250px;
+        }
+
+        .lesha-name {
+            font-weight: 700;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .lesha-title {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .telegram-link-fixed {
+            display: inline-block;
+            background: linear-gradient(135deg, #0088cc, #0066aa);
             color: white;
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+        }
+
+        .telegram-link-fixed:hover {
+            background: linear-gradient(135deg, #0066aa, #004d7a);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .header > div {
+                flex-direction: column !important;
+                text-align: center !important;
+            }
+            
+            .header > div > div:last-child {
+                margin-top: 20px;
+            }
+            
+            .header img {
+                width: 80px !important;
+            }
+            
+            .header h1 {
+                font-size: 1.8em !important;
+            }
+            
+            .fixed-lesha {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .lesha-image {
+                width: 120px;
+            }
+            
+            .lesha-info {
+                max-width: 200px;
+                padding: 12px 15px;
+            }
         }
 
         .word-input-section {
@@ -347,10 +481,12 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🇷🇺 Интерактивная проверка русского языка</h1>
-            <p>Перетаскивайте слова в правильные категории и проверяйте свои знания!</p>
-            <div style="margin-top: 15px; font-size: 1.1em; font-weight: 500;">
-                Студия "Лексикон"
+            <div class="header-content">
+                <h1>🇷🇺 Интерактивная проверка русского языка</h1>
+                <p>Перетаскивайте слова в правильные категории и проверяйте свои знания!</p>
+                <div class="studio-name">
+                    Студия "Лексикон"
+                </div>
             </div>
         </div>
 
@@ -400,6 +536,18 @@
             <p style="margin: 0; font-size: 14px;">
                 © 2024 П.В. Алексеев, г. Горно-Алтайск
             </p>
+        </div>
+        
+        <!-- Леша Буковкин - главный персонаж сайта -->
+        <div class="fixed-lesha">
+            <img src="Lesha-1.png" alt="Леша Буковкин" class="lesha-image">
+            <div class="lesha-info">
+                <div class="lesha-name">Леша Буковкин</div>
+                <div class="lesha-title">ваш виртуальный помощник</div>
+                <a href="https://t.me/lexicon_studio" target="_blank" class="telegram-link-fixed">
+                    📱 Telegram канал
+                </a>
+            </div>
         </div>
     </div>
 
