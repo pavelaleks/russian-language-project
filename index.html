@@ -576,7 +576,7 @@
                 categories: [
                     { name: '1-е склонение' },
                     { name: '2-е склонение' },
-                    { name: '3-е склонение (ж.р. на -ь)' },
+                    { name: '3-е склонение' },
                     { name: 'Несклоняемые существительные' },
                     { name: 'Разносклоняемые существительные' }
                 ],
@@ -922,8 +922,13 @@
                     this.classList.add('active');
                     currentExercise = this.dataset.exercise;
                     
-                    // Генерируем новые случайные слова при смене упражнения
-                    generateRandomWords();
+                    // Генерируем упражнение при смене типа
+                    generateExercise();
+                    
+                    // Генерируем новые случайные слова при смене упражнения (если корпус загружен)
+                    if (morphologyCorpus) {
+                        generateRandomWords();
+                    }
                 });
             });
         }
@@ -1181,6 +1186,9 @@
             exerciseData[currentExercise].words = [...currentWords];
             
             // Очищаем пользовательские слова
+            
+            // Перегенерируем упражнение для обновления интерфейса
+            generateExercise();
             
             console.log(`Сгенерировано ${currentWords.length} случайных слов из морфологического корпуса:`, currentWords);
             console.log(`Доступно ${filteredWords.length} слов для упражнения "${currentExercise}"`);
