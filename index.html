@@ -59,17 +59,19 @@
             padding: 15px 25px;
             border: none;
             border-radius: 10px;
-            background: #f8f9fa;
-            color: #333;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
         }
 
         .exercise-btn:hover {
-            background: #e9ecef;
+            background: linear-gradient(135deg, #0056b3, #004085);
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
         }
 
         .rules-btn {
@@ -91,8 +93,9 @@
         }
 
         .exercise-btn.active {
-            background: #007bff;
+            background: linear-gradient(135deg, #28a745, #1e7e34);
             color: white;
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
         }
 
         .word-input-section {
@@ -355,8 +358,6 @@
             <div class="exercise-selector">
                 <button class="exercise-btn active" data-exercise="declension">Склонение существительных</button>
                 <button class="exercise-btn" data-exercise="conjugation">Спряжение глаголов</button>
-                <button class="rules-btn" onclick="showRules('declension')">📖 Правила склонения</button>
-                <button class="rules-btn" onclick="showRules('conjugation')">📖 Правила спряжения</button>
             </div>
 
             <div class="word-count-section" style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
@@ -373,6 +374,8 @@
                     </select>
                     <button class="add-word-btn" onclick="generateRandomWords()" style="background: #17a2b8;">🎲 Новые слова</button>
                     <button class="add-word-btn" onclick="clearAllWords()" style="background: #dc3545;">🗑️ Очистить все</button>
+                    <button class="rules-btn" onclick="showRules('declension')">📖 Правила склонения</button>
+                    <button class="rules-btn" onclick="showRules('conjugation')">📖 Правила спряжения</button>
                 </div>
                 <small style="color: #666; margin-top: 10px; display: block;">
                     💡 Слова выбираются случайно из полного морфологического корпуса OpenCorpora с фильтрацией по грамматическим признакам
