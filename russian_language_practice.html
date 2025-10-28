@@ -510,29 +510,73 @@
         }
 
         function determineCorrectCategory(word, exerciseType) {
-            return analyzeWord(word).then(analysis => {
-                switch (exerciseType) {
-                    case 'declension':
-                        if (analysis.declension === '1st') return 0;
-                        if (analysis.declension === '2nd') return 1;
-                        if (analysis.declension === '3rd') return 2;
-                        if (analysis.declension === 'indeclinable') return 3;
-                        if (analysis.declension === 'heteroclitic') return 4;
-                        break;
-                    case 'conjugation':
-                        if (analysis.conjugation === '1st') return 0;
-                        if (analysis.conjugation === '2nd') return 1;
-                        break;
-                    case 'parts-of-speech':
-                        if (analysis.partOfSpeech === 'noun') return 0;
-                        if (analysis.partOfSpeech === 'adjective') return 1;
-                        if (analysis.partOfSpeech === 'verb') return 2;
-                        if (analysis.partOfSpeech === 'adverb') return 3;
-                        if (analysis.partOfSpeech === 'conjunction') return 4;
-                        break;
+            console.log(`Определяем категорию для слова "${word}" в упражнении "${exerciseType}"`);
+            
+            // Определяем правильную категорию на основе морфологического корпуса
+            let analysis = {
+                partOfSpeech: 'unknown',
+                declension: 'unknown',
+                conjugation: 'unknown'
+            };
+            
+            // Сначала проверяем в морфологическом корпусе
+            if (morphologyCorpus && morphologyCorpus.metadata.words[word]) {
+                const features = morphologyCorpus.metadata.words[word];
+                analysis.partOfSpeech = features.pos ? features.pos.toLowerCase() : 'unknown';
+                analysis.declension = features.declension || 'unknown';
+                analysis.conjugation = features.conjugation || 'unknown';
+                console.log(`Найдено в корпусе:`, features);
+            } else {
+                console.log(`Слово "${word}" не найдено в корпусе, используем правила`);
+                // Если не найдено в корпусе, используем простые правила
+                if (word.endsWith('а') || word.endsWith('я')) {
+                    analysis.partOfSpeech = 'noun';
+                    analysis.declension = '1st';
+                } else if (word.endsWith('о') || word.endsWith('е')) {
+                    analysis.partOfSpeech = 'noun';
+                    analysis.declension = '2nd';
+                } else if (word.endsWith('ь')) {
+                    analysis.partOfSpeech = 'noun';
+                    analysis.declension = '3rd';
+                } else if (word.endsWith('ть') || word.endsWith('ти')) {
+                    analysis.partOfSpeech = 'verb';
+                    analysis.conjugation = '1st';
+                } else if (word.endsWith('ить') || word.endsWith('ать') || word.endsWith('ять')) {
+                    analysis.partOfSpeech = 'verb';
+                    analysis.conjugation = '2nd';
+                } else {
+                    // По умолчанию считаем существительным 1-го склонения
+                    analysis.partOfSpeech = 'noun';
+                    analysis.declension = '1st';
                 }
-                return -1; // Неизвестно
-            });
+            }
+            
+            console.log(`Анализ слова "${word}":`, analysis);
+            
+            let result = -1;
+            switch (exerciseType) {
+                case 'declension':
+                    if (analysis.declension === '1st') result = 0;
+                    if (analysis.declension === '2nd') result = 1;
+                    if (analysis.declension === '3rd') result = 2;
+                    if (analysis.declension === 'indeclinable') result = 3;
+                    if (analysis.declension === 'heteroclitic') result = 4;
+                    break;
+                case 'conjugation':
+                    if (analysis.conjugation === '1st') result = 0;
+                    if (analysis.conjugation === '2nd') result = 1;
+                    break;
+                case 'parts-of-speech':
+                    if (analysis.partOfSpeech === 'noun') result = 0;
+                    if (analysis.partOfSpeech === 'adjective') result = 1;
+                    if (analysis.partOfSpeech === 'verb') result = 2;
+                    if (analysis.partOfSpeech === 'adverb') result = 3;
+                    if (analysis.partOfSpeech === 'conjunction') result = 4;
+                    break;
+            }
+            
+            console.log(`Результат для "${word}": категория ${result}`);
+            return result;
         }
 
         // Данные для упражнений (копия исходных данных)
@@ -895,7 +939,7 @@
                 
                 // Если ответа нет в базе, используем автоматический анализ
                 if (correctCategory === undefined) {
-                    correctCategory = await determineCorrectCategory(word, currentExercise);
+                    correctCategory = determineCorrectCategory(word, currentExercise);
                 }
                 
                 total++;
