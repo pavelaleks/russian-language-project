@@ -509,7 +509,6 @@
                         <option value="30">30 слов</option>
                     </select>
                     <button class="add-word-btn" onclick="generateRandomWords()" style="background: #17a2b8;">🎲 Новые слова</button>
-                    <button class="add-word-btn" onclick="clearAllWords()" style="background: #dc3545;">🗑️ Очистить все</button>
                     <button class="rules-btn" onclick="showRules('declension')">📖 Правила склонения</button>
                     <button class="rules-btn" onclick="showRules('conjugation')">📖 Правила спряжения</button>
                 </div>
@@ -527,7 +526,10 @@
 
             <div class="feedback hidden" id="feedback"></div>
 
-            <button class="check-btn" onclick="checkAnswers()">✅ Проверить ответы</button>
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+                <button class="check-btn" onclick="checkAnswers()">✅ Проверить ответы</button>
+                <button class="add-word-btn" onclick="clearAllWords()" style="background: #dc3545;">🗑️ Очистить все</button>
+            </div>
         </div>
         
         <div class="footer" style="background: #f8f9fa; padding: 20px; text-align: center; color: #666; border-top: 1px solid #dee2e6;">
@@ -1182,6 +1184,20 @@
                 currentWords = [];
                 customWords = [];
                 exerciseData[currentExercise].words = [];
+                
+                // Очищаем результаты проверки
+                const feedbackElement = document.getElementById('feedback');
+                if (feedbackElement) {
+                    feedbackElement.classList.add('hidden');
+                    feedbackElement.innerHTML = '';
+                }
+                
+                // Очищаем результаты упражнения
+                const resultsElement = document.getElementById('exerciseResults');
+                if (resultsElement) {
+                    resultsElement.innerHTML = '';
+                }
+                
                 generateExercise();
             }
         }
@@ -1201,43 +1217,43 @@
             
             if (type === 'declension') {
                 rulesContent = `
-                    <div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                        <h2 style="color: #333; margin-bottom: 20px; text-align: center;">📚 Правила склонения существительных</h2>
+                    <div style="background: white; padding: 20px; border-radius: 10px; max-width: 700px; margin: 10px auto; box-shadow: 0 8px 25px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto;">
+                        <h2 style="color: #333; margin-bottom: 15px; text-align: center; font-size: 1.4em;">📚 Правила склонения существительных</h2>
                         
-                        <div style="margin-bottom: 25px;">
-                            <h3 style="color: #007bff; margin-bottom: 15px;">1-е склонение</h3>
-                            <p style="margin-bottom: 10px;"><strong>Мужской род:</strong> существительные на -а, -я (папа, дядя, юноша)</p>
-                            <p style="margin-bottom: 10px;"><strong>Женский род:</strong> существительные на -а, -я (мама, тётя, земля, вода)</p>
-                            <p style="color: #666; font-style: italic;">Примеры: мама, папа, книга, ручка, земля, вода</p>
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #007bff; margin-bottom: 8px; font-size: 1.1em;">1-е склонение</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Мужской род:</strong> существительные на -а, -я (папа, дядя, юноша)</p>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Женский род:</strong> существительные на -а, -я (мама, тётя, земля, вода)</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: мама, папа, книга, ручка, земля, вода</p>
                         </div>
                         
-                        <div style="margin-bottom: 25px;">
-                            <h3 style="color: #28a745; margin-bottom: 15px;">2-е склонение</h3>
-                            <p style="margin-bottom: 10px;"><strong>Мужской род:</strong> существительные с нулевым окончанием (стол, дом, конь)</p>
-                            <p style="margin-bottom: 10px;"><strong>Средний род:</strong> существительные на -о, -е (окно, поле, море)</p>
-                            <p style="color: #666; font-style: italic;">Примеры: стол, дом, окно, дерево, поле, море</p>
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #28a745; margin-bottom: 8px; font-size: 1.1em;">2-е склонение</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Мужской род:</strong> существительные с нулевым окончанием (стол, дом, конь)</p>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Средний род:</strong> существительные на -о, -е (окно, поле, море)</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: стол, дом, окно, дерево, поле, море</p>
                         </div>
                         
-                        <div style="margin-bottom: 25px;">
-                            <h3 style="color: #dc3545; margin-bottom: 15px;">3-е склонение</h3>
-                            <p style="margin-bottom: 10px;"><strong>Женский род:</strong> существительные на -ь (ночь, мышь, рожь)</p>
-                            <p style="color: #666; font-style: italic;">Примеры: ночь, мышь, рожь, печь, дочь, ложь</p>
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #dc3545; margin-bottom: 8px; font-size: 1.1em;">3-е склонение</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Женский род:</strong> существительные на -ь (ночь, мышь, рожь)</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: ночь, мышь, рожь, печь, дочь, ложь</p>
                         </div>
                         
-                        <div style="margin-bottom: 25px;">
-                            <h3 style="color: #6f42c1; margin-bottom: 15px;">Несклоняемые существительные</h3>
-                            <p style="margin-bottom: 10px;">Не изменяются по падежам (кофе, пальто, кино, метро)</p>
-                            <p style="color: #666; font-style: italic;">Примеры: кофе, пальто, кино, метро, такси, меню</p>
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #6f42c1; margin-bottom: 8px; font-size: 1.1em;">Несклоняемые существительные</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;">Не изменяются по падежам (кофе, пальто, кино, метро)</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: кофе, пальто, кино, метро, такси, меню</p>
                         </div>
                         
-                        <div style="margin-bottom: 25px;">
-                            <h3 style="color: #fd7e14; margin-bottom: 15px;">Разносклоняемые существительные</h3>
-                            <p style="margin-bottom: 10px;">Склоняются по-особому (путь, время, имя, племя)</p>
-                            <p style="color: #666; font-style: italic;">Примеры: путь, время, имя, племя, знамя, пламя</p>
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #fd7e14; margin-bottom: 8px; font-size: 1.1em;">Разносклоняемые существительные</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;">Склоняются по-особому (путь, время, имя, племя)</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: путь, время, имя, племя, знамя, пламя</p>
                         </div>
                         
-                        <div style="text-align: center; margin-top: 30px;">
-                            <button onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-size: 16px;">
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-size: 14px;">
                                 Закрыть
                             </button>
                         </div>
@@ -1245,46 +1261,46 @@
                 `;
             } else if (type === 'conjugation') {
                 rulesContent = `
-                    <div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                        <h2 style="color: #333; margin-bottom: 20px; text-align: center;">📚 Алгоритм определения спряжения глаголов</h2>
+                    <div style="background: white; padding: 20px; border-radius: 10px; max-width: 700px; margin: 10px auto; box-shadow: 0 8px 25px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto;">
+                        <h2 style="color: #333; margin-bottom: 15px; text-align: center; font-size: 1.4em;">📚 Алгоритм определения спряжения глаголов</h2>
                         
-                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
-                            <h3 style="color: #007bff; margin-bottom: 15px;">🔍 Алгоритм определения спряжения:</h3>
-                            <ol style="line-height: 1.6;">
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h3 style="color: #007bff; margin-bottom: 10px; font-size: 1.1em;">🔍 Алгоритм определения спряжения:</h3>
+                            <ol style="line-height: 1.4; font-size: 0.9em;">
                                 <li><strong>Поставьте глагол в форму 3 лица настоящего или будущего времени</strong></li>
                                 <li><strong>Если окончание ударное:</strong> Е(Ё), У, Ю → 1 спр.; И, А, Я → 2 спр.</li>
                                 <li><strong>Если окончание безударное:</strong> поставьте глагол в неопределённую форму</li>
                                 <li><strong>Проверьте инфинитив:</strong></li>
-                                <ul style="margin-top: 10px;">
-                                    <li><strong>1-е спряжение:</strong> -ать, -ять, -ыть, -уть, -оть, -ти, -чь + исключения: брить, стелить, зиждиться</li>
-                                    <li><strong>2-е спряжение:</strong> -ить + исключения: слышать, дышать, держать, гнать, терпеть, вертеть, обидеть, зависеть, ненавидеть, видеть, смотреть</li>
+                                <ul style="margin-top: 8px; font-size: 0.85em;">
+                                    <li><strong>1-е спряжение:</strong> -ать, -ять, -ыть, -уть, -оть, -ти, -чь + исключения: брить, стелить, зиждиться, выпить, уничтожить, жить</li>
+                                    <li><strong>2-е спряжение:</strong> -ить + исключения: слышать, дышать, держать, гнать, терпеть, вертеть, обидеть, зависеть, ненавидеть, видеть, смотреть, лежать</li>
                                 </ul>
                             </ol>
                         </div>
                         
-                        <div style="margin-bottom: 25px;">
-                            <h3 style="color: #28a745; margin-bottom: 15px;">1-е спряжение</h3>
-                            <p style="margin-bottom: 10px;"><strong>Окончания:</strong> -у/-ю, -ешь/-ёшь, -ет/-ёт, -ем/-ём, -ете/-ёте, -ут/-ют</p>
-                            <p style="margin-bottom: 10px;"><strong>Инфинитивы:</strong> -ать, -ять, -ыть, -уть, -оть, -ти, -чь</p>
-                            <p style="color: #666; font-style: italic;">Примеры: читать, писать, работать, жить, моет, бреет, кроют</p>
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #28a745; margin-bottom: 8px; font-size: 1.1em;">1-е спряжение</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Окончания:</strong> -у/-ю, -ешь/-ёшь, -ет/-ёт, -ем/-ём, -ете/-ёте, -ут/-ют</p>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Инфинитивы:</strong> -ать, -ять, -ыть, -уть, -оть, -ти, -чь</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: читать, писать, работать, жить, моет, бреет, кроют</p>
                         </div>
                         
-                        <div style="margin-bottom: 25px;">
-                            <h3 style="color: #dc3545; margin-bottom: 15px;">2-е спряжение</h3>
-                            <p style="margin-bottom: 10px;"><strong>Окончания:</strong> -у/-ю, -ишь, -ит, -им, -ите, -ат/-ят</p>
-                            <p style="margin-bottom: 10px;"><strong>Инфинитивы:</strong> -ить + исключения</p>
-                            <p style="color: #666; font-style: italic;">Примеры: говорить, смотреть, слышать, дышать, держать, видеть</p>
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #dc3545; margin-bottom: 8px; font-size: 1.1em;">2-е спряжение</h3>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Окончания:</strong> -у/-ю, -ишь, -ит, -им, -ите, -ат/-ят</p>
+                            <p style="margin-bottom: 5px; font-size: 0.9em;"><strong>Инфинитивы:</strong> -ить + исключения</p>
+                            <p style="color: #666; font-style: italic; font-size: 0.85em;">Примеры: говорить, смотреть, слышать, дышать, держать, видеть, лежать</p>
                         </div>
                         
-                        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 25px;">
-                            <h4 style="color: #856404; margin-bottom: 10px;">⚠️ Важно помнить:</h4>
-                            <p style="margin-bottom: 8px; color: #856404;">• Приставка <strong>вы-</strong> перетягивает ударение</p>
-                            <p style="margin-bottom: 8px; color: #856404;">• Глаголы <strong>есть, дать, хотеть, бежать</strong> - разноспрягаемые</p>
-                            <p style="color: #856404;">• В повелительном наклонении всегда суффикс <strong>-и-</strong></p>
+                        <div style="background: #fff3cd; padding: 12px; border-radius: 6px; margin-bottom: 15px;">
+                            <h4 style="color: #856404; margin-bottom: 8px; font-size: 1em;">⚠️ Важно помнить:</h4>
+                            <p style="margin-bottom: 5px; color: #856404; font-size: 0.85em;">• Приставка <strong>вы-</strong> перетягивает ударение</p>
+                            <p style="margin-bottom: 5px; color: #856404; font-size: 0.85em;">• Глаголы <strong>есть, дать, хотеть, бежать</strong> - разноспрягаемые</p>
+                            <p style="color: #856404; font-size: 0.85em;">• В повелительном наклонении всегда суффикс <strong>-и-</strong></p>
                         </div>
                         
-                        <div style="text-align: center; margin-top: 30px;">
-                            <button onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-size: 16px;">
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-size: 14px;">
                                 Закрыть
                             </button>
                         </div>
