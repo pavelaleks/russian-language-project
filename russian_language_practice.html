@@ -534,8 +534,8 @@
             };
 
             // Сначала проверяем в морфологическом корпусе
-            if (morphologyCorpus && morphologyCorpus.words[word]) {
-                const features = morphologyCorpus.words[word];
+            if (morphologyCorpus && morphologyCorpus.metadata.words[word]) {
+                const features = morphologyCorpus.metadata.words[word];
                 result.partOfSpeech = features.pos.toLowerCase();
                 
                 if (features.pos === 'NOUN') {
