@@ -508,9 +508,9 @@
                         <option value="25">25 слов</option>
                         <option value="30">30 слов</option>
                     </select>
-                    <button class="add-word-btn" onclick="generateRandomWords()" style="background: #17a2b8;">🎲 Новые слова</button>
-                    <button class="rules-btn" onclick="showRules('declension')">📖 Правила склонения</button>
-                    <button class="rules-btn" onclick="showRules('conjugation')">📖 Правила спряжения</button>
+                    <button type="button" class="add-word-btn" onclick="generateRandomWords()" style="background: #17a2b8;">🎲 Новые слова</button>
+                    <button type="button" class="rules-btn" onclick="showRules('declension')">📖 Правила склонения</button>
+                    <button type="button" class="rules-btn" onclick="showRules('conjugation')">📖 Правила спряжения</button>
                 </div>
                 <small style="color: #666; margin-top: 10px; display: block;">
                     💡 Слова выбираются случайно из полного морфологического корпуса OpenCorpora с фильтрацией по грамматическим признакам
@@ -527,8 +527,8 @@
             <div class="feedback hidden" id="feedback"></div>
 
             <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
-                <button class="check-btn" onclick="checkAnswers()">✅ Проверить ответы</button>
-                <button class="add-word-btn" onclick="clearAllWords()" style="background: #dc3545;">🗑️ Очистить все</button>
+                <button type="button" class="check-btn" onclick="checkAnswers()">✅ Проверить ответы</button>
+                <button type="button" class="check-btn" onclick="clearAllWords()" style="background: #dc3545; padding: 12px 24px; font-size: 16px;">🗑️ Очистить все</button>
             </div>
         </div>
         
@@ -1253,7 +1253,7 @@
                         </div>
                         
                         <div style="text-align: center; margin-top: 20px;">
-                            <button onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                            <button type="button" onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-size: 14px;">
                                 Закрыть
                             </button>
                         </div>
@@ -1300,7 +1300,7 @@
                         </div>
                         
                         <div style="text-align: center; margin-top: 20px;">
-                            <button onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                            <button type="button" onclick="closeRules()" style="background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-size: 14px;">
                                 Закрыть
                             </button>
                         </div>
