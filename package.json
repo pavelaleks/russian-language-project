@@ -1,0 +1,17 @@
+{
+  "name": "russian-language-parser",
+  "version": "1.0.0",
+  "description": "Parser for OpenCorpora XML files",
+  "main": "parse_opencorpora.js",
+  "scripts": {
+    "parse": "node parse_opencorpora.js",
+    "parse-no-ambig": "node parse_opencorpora.js annot.opcorpora.no_ambig.xml opencorpora_no_ambig.json",
+    "parse-full": "node parse_opencorpora.js annot.opcorpora.xml opencorpora_full.json"
+  },
+  "dependencies": {
+    "xml2js": "^0.6.2"
+  },
+  "keywords": ["russian", "morphology", "opencorpora", "parser"],
+  "author": "Russian Language Project",
+  "license": "MIT"
+}

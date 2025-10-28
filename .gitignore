@@ -1,0 +1,29 @@
+# Временные файлы
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Большие файлы корпуса (не нужны для GitHub Pages)
+annot.opcorpora.xml
+annot.opcorpora.no_ambig.xml
+annot.opcorpora.xsd
+opencorpora_no_ambig.json
+
+# Node.js (если будет использоваться)
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Логи
+*.log

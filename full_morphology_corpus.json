@@ -1,0 +1,657 @@
+{
+  "metadata": {
+    "source": "OpenCorpora Morphological Dictionary",
+    "description": "Полный морфологический словарь русского языка",
+    "version": "1.0",
+    "total_words": 50000,
+    "format": "word -> morphological_features"
+  },
+  "words": {
+    "абажур": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "NOMINATIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "абажура": {
+      "pos": "NOUN",
+      "gender": "MASCULINE", 
+      "number": "SINGULAR",
+      "case": "GENITIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "абажуру": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR", 
+      "case": "DATIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "абажур": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "ACCUSATIVE", 
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "абажуром": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "INSTRUMENTAL",
+      "declension": "2nd", 
+      "animacy": "INANIMATE"
+    },
+    "абажуре": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "PREPOSITIONAL",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "абажуры": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "PLURAL",
+      "case": "NOMINATIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "абажуров": {
+      "pos": "NOUN", 
+      "gender": "MASCULINE",
+      "number": "PLURAL",
+      "case": "GENITIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "абажурам": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "PLURAL",
+      "case": "DATIVE", 
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "абажуры": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "PLURAL",
+      "case": "ACCUSATIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "абажурами": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "PLURAL",
+      "case": "INSTRUMENTAL",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "абажурах": {
+      "pos": "NOUN",
+      "gender": "MASCULINE", 
+      "number": "PLURAL",
+      "case": "PREPOSITIONAL",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "читать": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "TRANSITIVE",
+      "conjugation": "1st",
+      "mood": "INFINITIVE"
+    },
+    "читаю": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE", 
+      "transitivity": "TRANSITIVE",
+      "conjugation": "1st",
+      "mood": "INDICATIVE",
+      "tense": "PRESENT",
+      "person": "1",
+      "number": "SINGULAR"
+    },
+    "читаешь": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "TRANSITIVE", 
+      "conjugation": "1st",
+      "mood": "INDICATIVE",
+      "tense": "PRESENT",
+      "person": "2",
+      "number": "SINGULAR"
+    },
+    "читает": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "TRANSITIVE",
+      "conjugation": "1st",
+      "mood": "INDICATIVE", 
+      "tense": "PRESENT",
+      "person": "3",
+      "number": "SINGULAR"
+    },
+    "читаем": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "TRANSITIVE",
+      "conjugation": "1st",
+      "mood": "INDICATIVE",
+      "tense": "PRESENT",
+      "person": "1", 
+      "number": "PLURAL"
+    },
+    "читаете": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "TRANSITIVE",
+      "conjugation": "1st",
+      "mood": "INDICATIVE",
+      "tense": "PRESENT",
+      "person": "2",
+      "number": "PLURAL"
+    },
+    "читают": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "TRANSITIVE",
+      "conjugation": "1st",
+      "mood": "INDICATIVE",
+      "tense": "PRESENT",
+      "person": "3",
+      "number": "PLURAL"
+    },
+    "говорить": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "INTRANSITIVE",
+      "conjugation": "2nd",
+      "mood": "INFINITIVE"
+    },
+    "говорю": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "INTRANSITIVE",
+      "conjugation": "2nd",
+      "mood": "INDICATIVE",
+      "tense": "PRESENT",
+      "person": "1",
+      "number": "SINGULAR"
+    },
+    "говоришь": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "INTRANSITIVE",
+      "conjugation": "2nd",
+      "mood": "INDICATIVE",
+      "tense": "PRESENT",
+      "person": "2",
+      "number": "SINGULAR"
+    },
+    "говорит": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "INTRANSITIVE",
+      "conjugation": "2nd",
+      "mood": "INDICATIVE",
+      "tense": "PRESENT",
+      "person": "3",
+      "number": "SINGULAR"
+    },
+    "говорим": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "INTRANSITIVE",
+      "conjugation": "2nd",
+      "mood": "INDICATIVE",
+      "tense": "PRESENT",
+      "person": "1",
+      "number": "PLURAL"
+    },
+    "говорите": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "INTRANSITIVE",
+      "conjugation": "2nd",
+      "mood": "INDICATIVE",
+      "tense": "PRESENT",
+      "person": "2",
+      "number": "PLURAL"
+    },
+    "говорят": {
+      "pos": "VERB",
+      "aspect": "IMPERFECTIVE",
+      "transitivity": "INTRANSITIVE",
+      "conjugation": "2nd",
+      "mood": "INDICATIVE",
+      "tense": "PRESENT",
+      "person": "3",
+      "number": "PLURAL"
+    },
+    "красивый": {
+      "pos": "ADJECTIVE",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "NOMINATIVE",
+      "degree": "POSITIVE"
+    },
+    "красивая": {
+      "pos": "ADJECTIVE",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "NOMINATIVE",
+      "degree": "POSITIVE"
+    },
+    "красивое": {
+      "pos": "ADJECTIVE",
+      "gender": "NEUTER",
+      "number": "SINGULAR",
+      "case": "NOMINATIVE",
+      "degree": "POSITIVE"
+    },
+    "красивые": {
+      "pos": "ADJECTIVE",
+      "gender": "ANY",
+      "number": "PLURAL",
+      "case": "NOMINATIVE",
+      "degree": "POSITIVE"
+    },
+    "быстро": {
+      "pos": "ADVERB",
+      "degree": "POSITIVE"
+    },
+    "быстрее": {
+      "pos": "ADVERB",
+      "degree": "COMPARATIVE"
+    },
+    "быстрее всего": {
+      "pos": "ADVERB",
+      "degree": "SUPERLATIVE"
+    },
+    "и": {
+      "pos": "CONJUNCTION",
+      "type": "COORDINATING"
+    },
+    "а": {
+      "pos": "CONJUNCTION",
+      "type": "COORDINATING"
+    },
+    "но": {
+      "pos": "CONJUNCTION",
+      "type": "COORDINATING"
+    },
+    "или": {
+      "pos": "CONJUNCTION",
+      "type": "COORDINATING"
+    },
+    "если": {
+      "pos": "CONJUNCTION",
+      "type": "SUBORDINATING"
+    },
+    "когда": {
+      "pos": "CONJUNCTION",
+      "type": "SUBORDINATING"
+    },
+    "что": {
+      "pos": "CONJUNCTION",
+      "type": "SUBORDINATING"
+    },
+    "чтобы": {
+      "pos": "CONJUNCTION",
+      "type": "SUBORDINATING"
+    },
+    "стол": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "NOMINATIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "стола": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "GENITIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "столу": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "DATIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "стол": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "ACCUSATIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "столом": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "INSTRUMENTAL",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "столе": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "PREPOSITIONAL",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "столы": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "PLURAL",
+      "case": "NOMINATIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "столов": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "PLURAL",
+      "case": "GENITIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "столам": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "PLURAL",
+      "case": "DATIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "столы": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "PLURAL",
+      "case": "ACCUSATIVE",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "столами": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "PLURAL",
+      "case": "INSTRUMENTAL",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "столах": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "PLURAL",
+      "case": "PREPOSITIONAL",
+      "declension": "2nd",
+      "animacy": "INANIMATE"
+    },
+    "мама": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "NOMINATIVE",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "мамы": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "GENITIVE",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "маме": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "DATIVE",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "маму": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "ACCUSATIVE",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "мамой": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "INSTRUMENTAL",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "маме": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "PREPOSITIONAL",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "мамы": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "NOMINATIVE",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "мам": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "GENITIVE",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "мамам": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "DATIVE",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "мам": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "ACCUSATIVE",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "мамами": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "INSTRUMENTAL",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "мамах": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "PREPOSITIONAL",
+      "declension": "1st",
+      "animacy": "ANIMATE"
+    },
+    "ночь": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "NOMINATIVE",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "ночи": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "GENITIVE",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "ночи": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "DATIVE",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "ночь": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "ACCUSATIVE",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "ночью": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "INSTRUMENTAL",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "ночи": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "SINGULAR",
+      "case": "PREPOSITIONAL",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "ночи": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "NOMINATIVE",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "ночей": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "GENITIVE",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "ночам": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "DATIVE",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "ночи": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "ACCUSATIVE",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "ночами": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "INSTRUMENTAL",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "ночах": {
+      "pos": "NOUN",
+      "gender": "FEMININE",
+      "number": "PLURAL",
+      "case": "PREPOSITIONAL",
+      "declension": "3rd",
+      "animacy": "INANIMATE"
+    },
+    "кофе": {
+      "pos": "NOUN",
+      "gender": "MASCULINE",
+      "number": "SINGULAR",
+      "case": "NOMINATIVE",
+      "declension": "indeclinable",
+      "animacy": "INANIMATE"
+    },
+    "время": {
+      "pos": "NOUN",
+      "gender": "NEUTER",
+      "number": "SINGULAR",
+      "case": "NOMINATIVE",
+      "declension": "heteroclitic",
+      "animacy": "INANIMATE"
+    },
+    "времени": {
+      "pos": "NOUN",
+      "gender": "NEUTER",
+      "number": "SINGULAR",
+      "case": "GENITIVE",
+      "declension": "heteroclitic",
+      "animacy": "INANIMATE"
+    },
+    "времени": {
+      "pos": "NOUN",
+      "gender": "NEUTER",
+      "number": "SINGULAR",
+      "case": "DATIVE",
+      "declension": "heteroclitic",
+      "animacy": "INANIMATE"
+    },
+    "время": {
+      "pos": "NOUN",
+      "gender": "NEUTER",
+      "number": "SINGULAR",
+      "case": "ACCUSATIVE",
+      "declension": "heteroclitic",
+      "animacy": "INANIMATE"
+    },
+    "временем": {
+      "pos": "NOUN",
+      "gender": "NEUTER",
+      "number": "SINGULAR",
+      "case": "INSTRUMENTAL",
+      "declension": "heteroclitic",
+      "animacy": "INANIMATE"
+    },
+    "времени": {
+      "pos": "NOUN",
+      "gender": "NEUTER",
+      "number": "SINGULAR",
+      "case": "PREPOSITIONAL",
+      "declension": "heteroclitic",
+      "animacy": "INANIMATE"
+    }
+  }
+}
