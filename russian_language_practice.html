@@ -526,6 +526,16 @@
                 analysis.declension = features.declension || 'unknown';
                 analysis.conjugation = features.conjugation || 'unknown';
                 console.log(`Найдено в корпусе:`, features);
+                console.log(`Преобразованная часть речи: "${analysis.partOfSpeech}"`);
+                
+                // Корпус уже исправлен, но оставляем резервные правила на случай старых корпусов
+                if (features.gender === 'MASCULINE' && 
+                    features.pos === 'NOUN' &&
+                    !word.endsWith('а') && !word.endsWith('я') && 
+                    analysis.declension === '1st') {
+                    analysis.declension = '2nd';
+                    console.log(`Резервное исправление для "${word}" (муж.р. без -а/-я) на 2-е`);
+                }
             } else {
                 console.log(`Слово "${word}" не найдено в корпусе, используем правила`);
                 // Если не найдено в корпусе, используем простые правила
@@ -554,6 +564,7 @@
             console.log(`Анализ слова "${word}":`, analysis);
             
             let result = -1;
+            console.log(`Тип упражнения: "${exerciseType}", склонение: "${analysis.declension}"`);
             switch (exerciseType) {
                 case 'declension':
                     if (analysis.declension === '1st') result = 0;
@@ -561,6 +572,7 @@
                     if (analysis.declension === '3rd') result = 2;
                     if (analysis.declension === 'indeclinable') result = 3;
                     if (analysis.declension === 'heteroclitic') result = 4;
+                    console.log(`Для склонения "${analysis.declension}" результат: ${result}`);
                     break;
                 case 'conjugation':
                     if (analysis.conjugation === '1st') result = 0;
@@ -584,90 +596,80 @@
 
         // Функция загрузки полного морфологического корпуса OpenCorpora
         async function loadMorphologyCorpus() {
-            const corpusFiles = [
-                'opencorpora_optimized.json',
-                'test_corpus.json',
-                'opencorpora_no_ambig.json',
-                'full_morphology_corpus.json'
-            ];
-            
-            for (const fileName of corpusFiles) {
-                try {
-                    console.log(`Попытка загрузки: ${fileName}`);
-                    const response = await fetch(fileName);
-                    if (!response.ok) {
-                        console.log(`Файл ${fileName} недоступен: ${response.status}`);
-                        continue;
-                    }
-                    
-                    const corpus = await response.json();
-                    
-                    if (!corpus.metadata || !corpus.metadata.words) {
-                        console.log(`Файл ${fileName} имеет неправильную структуру`);
-                        continue;
-                    }
-                    
-                    morphologyCorpus = corpus;
-                    
-                    console.log(`Загружен корпус: ${fileName} (${corpus.metadata.total_words} слов)`);
-                    
-                    // Обновляем статус в интерфейсе
-                    const statusElement = document.getElementById('corpusStatus');
-                    if (statusElement) {
-                        statusElement.textContent = `✅ Корпус загружен: ${fileName} (${corpus.metadata.total_words} слов)`;
-                        statusElement.style.color = '#28a745';
-                    }
-                    
-                    return true;
-                } catch (error) {
-                    console.log(`Ошибка загрузки ${fileName}:`, error.message);
-                    continue;
+            try {
+                console.log('🔄 Загружаем исправленный корпус...');
+                const response = await fetch('opencorpora.json?v=2&t=' + Date.now());
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
                 }
-            }
-            
-            // Если ни один файл не загрузился, используем резервные данные
-            console.warn('Не удалось загрузить корпус, используем резервные данные');
-            
-            morphologyCorpus = {
-                metadata: {
-                    source: 'Reserve',
-                    total_words: 100,
-                    words: {
-                        'стол': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
-                        'дом': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
-                        'мама': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'ANIMATE' },
-                        'папа': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'ANIMATE' },
-                        'книга': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'INANIMATE' },
-                        'ручка': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'INANIMATE' },
-                        'окно': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
-                        'дерево': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
-                        'ночь': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '3rd', animacy: 'INANIMATE' },
-                        'мышь': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '3rd', animacy: 'ANIMATE' },
-                        'кофе': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'indeclinable', animacy: 'INANIMATE' },
-                        'пальто': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'indeclinable', animacy: 'INANIMATE' },
-                        'время': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'heteroclitic', animacy: 'INANIMATE' },
-                        'имя': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'heteroclitic', animacy: 'INANIMATE' },
-                        'читать': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '1st', aspect: 'IMPERFECTIVE', transitivity: 'TRANSITIVE' },
-                        'писать': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '1st', aspect: 'IMPERFECTIVE', transitivity: 'TRANSITIVE' },
-                        'говорить': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '2nd', aspect: 'IMPERFECTIVE', transitivity: 'INTRANSITIVE' },
-                        'смотреть': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '2nd', aspect: 'IMPERFECTIVE', transitivity: 'TRANSITIVE' },
-                        'красивый': { pos: 'ADJECTIVE', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE' },
-                        'хороший': { pos: 'ADJECTIVE', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE' },
-                        'быстро': { pos: 'ADVERB' },
-                        'медленно': { pos: 'ADVERB' },
-                        'и': { pos: 'CONJUNCTION' },
-                        'а': { pos: 'CONJUNCTION' }
-                    }
+                
+                const corpus = await response.json();
+                
+                if (!corpus.metadata || !corpus.metadata.words) {
+                    throw new Error('Неправильная структура корпуса');
                 }
-            };
-            
-            const statusElement = document.getElementById('corpusStatus');
-            if (statusElement) {
-                statusElement.textContent = '⚠️ Используются резервные данные (100 слов)';
-                statusElement.style.color = '#ffc107';
+                
+                morphologyCorpus = corpus;
+                
+                console.log(`✅ Загружен исправленный корпус: ${corpus.metadata.total_words} слов`);
+                console.log(`Источник корпуса: ${corpus.metadata.source}`);
+                console.log(`Версия корпуса: ${corpus.metadata.revision}`);
+                
+                // Обновляем статус в интерфейсе
+                const statusElement = document.getElementById('corpusStatus');
+                if (statusElement) {
+                    statusElement.textContent = `✅ Исправленный корпус загружен (${corpus.metadata.total_words} слов)`;
+                    statusElement.style.color = '#28a745';
+                }
+                
+                return true;
+                
+            } catch (error) {
+                console.error('❌ Ошибка загрузки корпуса:', error.message);
+                
+                // Резервный корпус
+                morphologyCorpus = {
+                    metadata: {
+                        source: 'Reserve',
+                        total_words: 100,
+                        words: {
+                            'стол': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
+                            'дом': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
+                            'мама': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'ANIMATE' },
+                            'папа': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'ANIMATE' },
+                            'книга': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'INANIMATE' },
+                            'ручка': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '1st', animacy: 'INANIMATE' },
+                            'окно': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
+                            'дерево': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: '2nd', animacy: 'INANIMATE' },
+                            'ночь': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '3rd', animacy: 'INANIMATE' },
+                            'мышь': { pos: 'NOUN', gender: 'FEMININE', number: 'SINGULAR', case: 'NOMINATIVE', declension: '3rd', animacy: 'ANIMATE' },
+                            'кофе': { pos: 'NOUN', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'indeclinable', animacy: 'INANIMATE' },
+                            'пальто': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'indeclinable', animacy: 'INANIMATE' },
+                            'время': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'heteroclitic', animacy: 'INANIMATE' },
+                            'имя': { pos: 'NOUN', gender: 'NEUTER', number: 'SINGULAR', case: 'NOMINATIVE', declension: 'heteroclitic', animacy: 'INANIMATE' },
+                            'читать': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '1st', aspect: 'IMPERFECTIVE', transitivity: 'TRANSITIVE' },
+                            'писать': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '1st', aspect: 'IMPERFECTIVE', transitivity: 'TRANSITIVE' },
+                            'говорить': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '2nd', aspect: 'IMPERFECTIVE', transitivity: 'INTRANSITIVE' },
+                            'смотреть': { pos: 'VERB', mood: 'INFINITIVE', conjugation: '2nd', aspect: 'IMPERFECTIVE', transitivity: 'TRANSITIVE' },
+                            'красивый': { pos: 'ADJECTIVE', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE' },
+                            'хороший': { pos: 'ADJECTIVE', gender: 'MASCULINE', number: 'SINGULAR', case: 'NOMINATIVE' },
+                            'быстро': { pos: 'ADVERB' },
+                            'медленно': { pos: 'ADVERB' },
+                            'и': { pos: 'CONJUNCTION' },
+                            'а': { pos: 'CONJUNCTION' }
+                        }
+                    }
+                };
+                
+                const statusElement = document.getElementById('corpusStatus');
+                if (statusElement) {
+                    statusElement.textContent = '⚠️ Используются резервные данные (100 слов)';
+                    statusElement.style.color = '#ffc107';
+                }
+                
+                return false;
             }
-            
-            return true;
         }
 
         // Функция фильтрации слов по морфологическим признакам
@@ -943,6 +945,7 @@
                 }
                 
                 total++;
+                console.log(`Проверяем слово "${word}": пользователь выбрал категорию ${category}, правильная категория ${correctCategory}`);
                 if (correctCategory === category) {
                     correct++;
                     wordElement.style.background = '#28a745';
