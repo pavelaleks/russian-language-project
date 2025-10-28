@@ -907,11 +907,11 @@
                 console.log('Ошибка загрузки морфологического корпуса');
             }
             
-            // Генерируем случайные слова при загрузке
-            generateRandomWords();
-            
-            // Генерируем упражнение
+            // Генерируем упражнение сначала
             generateExercise();
+            
+            // Затем генерируем случайные слова
+            generateRandomWords();
         });
 
         function setupExerciseButtons() {
@@ -1135,8 +1135,6 @@
             feedbackElement.classList.remove('hidden');
         }
 
-        }
-
         // Функции для работы с случайными словами из морфологического корпуса
         function generateRandomWords() {
             console.log('generateRandomWords вызвана');
@@ -1183,9 +1181,6 @@
             exerciseData[currentExercise].words = [...currentWords];
             
             // Очищаем пользовательские слова
-            
-            // Перегенерируем упражнение
-            generateExercise();
             
             console.log(`Сгенерировано ${currentWords.length} случайных слов из морфологического корпуса:`, currentWords);
             console.log(`Доступно ${filteredWords.length} слов для упражнения "${currentExercise}"`);
