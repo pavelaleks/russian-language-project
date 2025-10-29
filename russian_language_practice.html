@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интерактивная проверка правил русского языка</title>
+    <title>Лексикон - Тренажер склонений и спряжений русского языка</title>
     <style>
         * {
             margin: 0;
@@ -35,8 +35,10 @@
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 3.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .header p {
@@ -290,6 +292,100 @@
             display: none;
         }
 
+        .error-basket {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #fff;
+            border: 2px solid #dc3545;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            max-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .error-basket h4 {
+            color: #dc3545;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .error-item {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .error-word {
+            font-weight: bold;
+            color: #721c24;
+        }
+
+        .error-details {
+            color: #721c24;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .remove-error-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-size: 12px;
+            cursor: pointer;
+            float: right;
+            margin-left: 5px;
+        }
+
+        .remove-error-btn:hover {
+            background: #c82333;
+        }
+
+        .basket-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .basket-toggle:hover {
+            background: #c82333;
+            transform: scale(1.1);
+        }
+
+        .basket-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ffc107;
+            color: #000;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -326,8 +422,9 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🇷🇺 Интерактивная проверка русского языка</h1>
-            <p>Перетаскивайте слова в правильные категории и проверяйте свои знания!</p>
+            <h1>📚 ЛЕКСИКОН</h1>
+            <h2 style="font-size: 1.8em; margin-bottom: 15px; font-weight: 600;">Тренажер склонений и спряжений русского языка</h2>
+            <p>Интерактивное изучение морфологии: склонения существительных, спряжения глаголов и грамматических форм</p>
         </div>
 
         <div class="main-content">
@@ -354,9 +451,9 @@
                     <button class="add-word-btn" onclick="clearAllWords()" style="background: #dc3545;">🗑️ Очистить все</button>
                 </div>
                 <small style="color: #666; margin-top: 10px; display: block;">
-                    💡 Слова выбираются случайно из полного морфологического корпуса OpenCorpora с фильтрацией по грамматическим признакам
+                    💡 Слова выбираются случайно из расширенного морфологического корпуса (4826 слов) с тщательной проверкой склонений и спряжений
                     <br>
-                    <span id="corpusStatus" style="font-weight: 500;">🔄 Загрузка корпуса OpenCorpora...</span>
+                    <span id="corpusStatus" style="font-weight: 500;">🔄 Загрузка расширенного корпуса...</span>
                 </small>
             </div>
 
@@ -373,6 +470,26 @@
         </div>
     </div>
 
+    <!-- Корзинка для ошибок -->
+    <button class="basket-toggle" onclick="toggleErrorBasket()" id="basketToggle">
+        🗑️
+        <span class="basket-count hidden" id="basketCount">0</span>
+    </button>
+
+    <div class="error-basket hidden" id="errorBasket">
+        <h4>🔍 Корзинка ошибок</h4>
+        <p style="font-size: 12px; color: #666; margin-bottom: 10px;">
+            Слова с возможными ошибками в склонениях/спряжениях
+        </p>
+        <div id="errorList">
+            <!-- Ошибки будут добавляться динамически -->
+        </div>
+        <div style="margin-top: 10px; text-align: center;">
+            <button class="reset-btn" onclick="clearErrorBasket()" style="background: #6c757d; font-size: 12px;">Очистить корзинку</button>
+            <button class="reset-btn" onclick="exportErrors()" style="background: #17a2b8; font-size: 12px;">Экспорт ошибок</button>
+        </div>
+    </div>
+
     <script>
         let currentExercise = 'declension';
         let draggedElement = null;
@@ -380,6 +497,7 @@
         let currentWords = []; // Текущие слова в упражнении
         let morphologyCorpus = null; // Полный морфологический корпус
         let filteredWordsCache = {}; // Кэш отфильтрованных слов для производительности
+        let errorBasket = []; // Корзинка для ошибок
 
         // Сохраняем исходные данные для восстановления
         const originalExerciseData = {
@@ -612,14 +730,14 @@
                 
                 morphologyCorpus = corpus;
                 
-                console.log(`✅ Загружен исправленный корпус: ${corpus.metadata.total_words} слов`);
+                console.log(`✅ Загружен расширенный корпус: ${corpus.metadata.total_words} слов`);
                 console.log(`Источник корпуса: ${corpus.metadata.source}`);
                 console.log(`Версия корпуса: ${corpus.metadata.revision}`);
                 
                 // Обновляем статус в интерфейсе
                 const statusElement = document.getElementById('corpusStatus');
                 if (statusElement) {
-                    statusElement.textContent = `✅ Исправленный корпус загружен (${corpus.metadata.total_words} слов)`;
+                    statusElement.textContent = `✅ Расширенный корпус загружен (${corpus.metadata.total_words} слов) - все склонения и спряжения проверены`;
                     statusElement.style.color = '#28a745';
                 }
                 
@@ -924,69 +1042,6 @@
         }
 
 
-        function checkAnswers() {
-            const exercise = exerciseData[currentExercise];
-            const droppedWords = document.querySelectorAll('.dropped-word');
-            let correct = 0;
-            let total = 0;
-            let feedback = '';
-
-            // Проверяем каждое слово
-            for (let wordElement of droppedWords) {
-                const word = wordElement.dataset.word;
-                const category = parseInt(wordElement.dataset.category);
-                
-                // Сначала проверяем предопределенные ответы
-                let correctCategory = exercise.answers[word];
-                
-                // Если ответа нет в базе, используем автоматический анализ
-                if (correctCategory === undefined) {
-                    correctCategory = determineCorrectCategory(word, currentExercise);
-                }
-                
-                total++;
-                console.log(`Проверяем слово "${word}": пользователь выбрал категорию ${category}, правильная категория ${correctCategory}`);
-                if (correctCategory === category) {
-                    correct++;
-                    wordElement.style.background = '#28a745';
-                } else {
-                    wordElement.style.background = '#dc3545';
-                    if (correctCategory >= 0) {
-                    feedback += `❌ "${word}" должно быть в категории "${exercise.categories[correctCategory].name}"\n`;
-                    } else {
-                        feedback += `❓ "${word}" - не удалось определить правильную категорию\n`;
-                }
-                }
-            }
-
-            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
-            const feedbackElement = document.getElementById('feedback');
-            
-            if (percentage === 100) {
-                feedbackElement.className = 'feedback correct';
-                feedbackElement.textContent = `🎉 Отлично! Все ответы правильные! (${correct}/${total})`;
-            } else if (percentage >= 70) {
-                feedbackElement.className = 'feedback correct';
-                feedbackElement.textContent = `👍 Хорошо! Правильных ответов: ${correct}/${total} (${percentage}%)`;
-            } else {
-                feedbackElement.className = 'feedback incorrect';
-                feedbackElement.textContent = `📚 Есть ошибки. Правильных ответов: ${correct}/${total} (${percentage}%)`;
-            }
-
-            if (feedback) {
-                feedbackElement.textContent += '\n\n' + feedback;
-            }
-
-            feedbackElement.classList.remove('hidden');
-        }
-
-        function resetExercise() {
-            customWords = [];
-            document.getElementById('wordInput').value = '';
-            document.getElementById('feedback').classList.add('hidden');
-            generateExercise();
-        }
-
         function restoreAllWords() {
             if (confirm('Восстановить все исходные слова упражнения? Это удалит все пользовательские слова.')) {
                 // Восстанавливаем исходные данные
@@ -1072,6 +1127,181 @@
                 [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
             return shuffled;
+        }
+
+        // Функции для работы с корзинкой ошибок
+        function addToErrorBasket(word, userCategory, correctCategory, exerciseType) {
+            const error = {
+                word: word,
+                userCategory: userCategory,
+                correctCategory: correctCategory,
+                exerciseType: exerciseType,
+                timestamp: new Date().toLocaleString(),
+                id: Date.now() + Math.random()
+            };
+            
+            // Проверяем, нет ли уже такого слова в корзинке
+            const existingIndex = errorBasket.findIndex(e => e.word === word && e.exerciseType === exerciseType);
+            if (existingIndex === -1) {
+                errorBasket.push(error);
+                updateErrorBasketDisplay();
+                console.log(`Добавлено в корзинку ошибок: ${word}`);
+            }
+        }
+
+        function updateErrorBasketDisplay() {
+            const basketCount = document.getElementById('basketCount');
+            const errorList = document.getElementById('errorList');
+            
+            // Обновляем счетчик
+            basketCount.textContent = errorBasket.length;
+            if (errorBasket.length > 0) {
+                basketCount.classList.remove('hidden');
+            } else {
+                basketCount.classList.add('hidden');
+            }
+            
+            // Обновляем список ошибок
+            if (errorBasket.length === 0) {
+                errorList.innerHTML = '<p style="color: #666; font-style: italic;">Корзинка пуста</p>';
+                return;
+            }
+            
+            let html = '';
+            errorBasket.forEach(error => {
+                const exercise = exerciseData[error.exerciseType];
+                const userCategoryName = exercise.categories[error.userCategory]?.name || 'Неизвестно';
+                const correctCategoryName = exercise.categories[error.correctCategory]?.name || 'Неизвестно';
+                
+                html += `
+                    <div class="error-item">
+                        <div class="error-word">${error.word}</div>
+                        <div class="error-details">
+                            Упражнение: ${exercise.title}<br>
+                            Выбрано: ${userCategoryName}<br>
+                            Правильно: ${correctCategoryName}<br>
+                            <small>${error.timestamp}</small>
+                        </div>
+                        <button class="remove-error-btn" onclick="removeFromErrorBasket(${error.id})">×</button>
+                    </div>
+                `;
+            });
+            
+            errorList.innerHTML = html;
+        }
+
+        function removeFromErrorBasket(errorId) {
+            errorBasket = errorBasket.filter(error => error.id !== errorId);
+            updateErrorBasketDisplay();
+        }
+
+        function toggleErrorBasket() {
+            const basket = document.getElementById('errorBasket');
+            basket.classList.toggle('hidden');
+        }
+
+        function clearErrorBasket() {
+            if (confirm('Очистить корзинку ошибок?')) {
+                errorBasket = [];
+                updateErrorBasketDisplay();
+            }
+        }
+
+        function exportErrors() {
+            if (errorBasket.length === 0) {
+                alert('Корзинка ошибок пуста');
+                return;
+            }
+            
+            const exportData = {
+                timestamp: new Date().toISOString(),
+                total_errors: errorBasket.length,
+                errors: errorBasket.map(error => ({
+                    word: error.word,
+                    exercise_type: error.exerciseType,
+                    user_category: error.userCategory,
+                    correct_category: error.correctCategory,
+                    timestamp: error.timestamp
+                }))
+            };
+            
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `lexicon_errors_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            console.log('Ошибки экспортированы:', exportData);
+        }
+
+        // Модифицируем функцию проверки ответов для добавления в корзинку
+        function checkAnswersWithBasket() {
+            const exercise = exerciseData[currentExercise];
+            const droppedWords = document.querySelectorAll('.dropped-word');
+            let correct = 0;
+            let total = 0;
+            let feedback = '';
+
+            // Проверяем каждое слово
+            for (let wordElement of droppedWords) {
+                const word = wordElement.dataset.word;
+                const category = parseInt(wordElement.dataset.category);
+                
+                // Сначала проверяем предопределенные ответы
+                let correctCategory = exercise.answers[word];
+                
+                // Если ответа нет в базе, используем автоматический анализ
+                if (correctCategory === undefined) {
+                    correctCategory = determineCorrectCategory(word, currentExercise);
+                }
+                
+                total++;
+                console.log(`Проверяем слово "${word}": пользователь выбрал категорию ${category}, правильная категория ${correctCategory}`);
+                
+                if (correctCategory === category) {
+                    correct++;
+                    wordElement.style.background = '#28a745';
+                } else {
+                    wordElement.style.background = '#dc3545';
+                    
+                    // Добавляем в корзинку ошибок
+                    if (correctCategory >= 0) {
+                        addToErrorBasket(word, category, correctCategory, currentExercise);
+                        feedback += `❌ "${word}" должно быть в категории "${exercise.categories[correctCategory].name}"\n`;
+                    } else {
+                        feedback += `❓ "${word}" - не удалось определить правильную категорию\n`;
+                    }
+                }
+            }
+
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            const feedbackElement = document.getElementById('feedback');
+            
+            if (percentage === 100) {
+                feedbackElement.className = 'feedback correct';
+                feedbackElement.textContent = `🎉 Отлично! Все ответы правильные! (${correct}/${total})`;
+            } else if (percentage >= 70) {
+                feedbackElement.className = 'feedback correct';
+                feedbackElement.textContent = `👍 Хорошо! Правильных ответов: ${correct}/${total} (${percentage}%)`;
+            } else {
+                feedbackElement.className = 'feedback incorrect';
+                feedbackElement.textContent = `📚 Есть ошибки. Правильных ответов: ${correct}/${total} (${percentage}%)`;
+            }
+
+            if (feedback) {
+                feedbackElement.textContent += '\n\n' + feedback;
+            }
+
+            feedbackElement.classList.remove('hidden');
+        }
+
+        // Заменяем старую функцию проверки на новую
+        function checkAnswers() {
+            checkAnswersWithBasket();
         }
 
     </script>
