@@ -355,12 +355,12 @@
             position: absolute;
             bottom: 240px;
             right: 0;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.95);
             border: 2px solid #4A90E2;
             border-radius: 15px;
-            padding: 20px;
-            max-width: 320px;
-            max-height: 250px;
+            padding: 25px;
+            max-width: 380px;
+            max-height: 300px;
             overflow-y: auto;
             box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             font-size: 15px;
@@ -371,6 +371,7 @@
             transition: all 0.3s ease;
             pointer-events: none;
             z-index: 10000;
+            backdrop-filter: blur(10px);
         }
 
         .lesha-speech.show {
@@ -1331,7 +1332,8 @@
                 .replace(/(\d+%)/g, '<span style="color: #F5A623; font-weight: bold;">$1</span>')
                 .replace(/(❌|❓)/g, '<span style="color: #dc3545; font-weight: bold;">$1</span>')
                 .replace(/(".*?")/g, '<span style="color: #4A90E2; font-weight: bold;">$1</span>')
-                .replace(/(Я старательно подготовил|просто перетащите его на меня)/g, '<span style="color: #28a745; font-style: italic;">$1</span>');
+                .replace(/(Я старательно подготовил)/g, '<span style="color: #28a745; font-style: italic;">$1</span>')
+                .replace(/(просто перетащите его на меня)/g, '<span style="color: #F5A623; font-weight: bold; background: rgba(245, 166, 35, 0.2); padding: 2px 6px; border-radius: 4px;">$1</span>');
             
             // Разбиваем сообщение на абзацы для лучшего отображения
             const paragraphs = processedMessage.split('\n\n').map(p => `<p>${p}</p>`).join('');
@@ -1340,7 +1342,7 @@
             
             // Увеличиваем время показа для длинных сообщений
             const messageLength = message.length;
-            const showTime = Math.max(6000, messageLength * 60); // Минимум 6 секунд, плюс время на чтение
+            const showTime = Math.max(7000, messageLength * 70); // Минимум 7 секунд, плюс время на чтение
             
             setTimeout(() => {
                 speech.classList.remove('show');
