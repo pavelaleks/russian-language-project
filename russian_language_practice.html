@@ -292,98 +292,214 @@
             display: none;
         }
 
-        .error-basket {
+        .lesha-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #fff;
+            border: 3px solid #28a745;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            z-index: 9998;
+            max-width: 300px;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .lesha-character {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .lesha-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid #28a745;
+        }
+
+        .lesha-speech {
+            flex: 1;
+        }
+
+        .lesha-speech p {
+            margin: 0;
+            font-size: 12px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .lesha-drop-zone {
+            background: #f8f9fa;
+            border: 2px dashed #28a745;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lesha-drop-zone.drag-over {
+            background: #d4edda;
+            border-color: #155724;
+            transform: scale(1.05);
+        }
+
+        .lesha-drop-zone p {
+            margin: 0;
+            color: #28a745;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .admin-btn {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #fff;
-            border: 2px solid #dc3545;
-            border-radius: 10px;
-            padding: 15px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 9999;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-            max-width: 300px;
-            max-height: 400px;
-            overflow-y: auto;
+            transition: all 0.3s ease;
         }
 
-        .error-basket h4 {
-            color: #dc3545;
-            margin-bottom: 10px;
+        .admin-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-panel-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .admin-login {
+            text-align: center;
+        }
+
+        .admin-login h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .admin-login input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             font-size: 16px;
         }
 
+        .admin-login button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .admin-login button:hover {
+            background: #0056b3;
+        }
+
+        .error-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
         .error-item {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            padding: 8px;
-            margin-bottom: 8px;
-            font-size: 14px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
         }
 
         .error-word {
             font-weight: bold;
-            color: #721c24;
+            color: #dc3545;
+            font-size: 18px;
         }
 
         .error-details {
-            color: #721c24;
-            font-size: 12px;
-            margin-top: 4px;
+            color: #666;
+            font-size: 14px;
+            margin: 8px 0;
         }
 
-        .remove-error-btn {
-            background: #dc3545;
+        .correction-form {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .correction-form select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .correction-form button {
+            background: #28a745;
             color: white;
             border: none;
-            border-radius: 3px;
-            padding: 2px 6px;
-            font-size: 12px;
+            padding: 8px 15px;
+            border-radius: 4px;
             cursor: pointer;
-            float: right;
-            margin-left: 5px;
+            margin-top: 10px;
         }
 
-        .remove-error-btn:hover {
-            background: #c82333;
-        }
-
-        .basket-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 1001;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .basket-toggle:hover {
-            background: #c82333;
-            transform: scale(1.1);
-        }
-
-        .basket-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ffc107;
-            color: #000;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .correction-form button:hover {
+            background: #218838;
         }
 
         @media (max-width: 768px) {
@@ -470,23 +586,47 @@
         </div>
     </div>
 
-    <!-- Корзинка для ошибок -->
-    <button class="basket-toggle" onclick="toggleErrorBasket()" id="basketToggle">
-        🗑️
-        <span class="basket-count hidden" id="basketCount">0</span>
-    </button>
-
-    <div class="error-basket hidden" id="errorBasket">
-        <h4>🔍 Корзинка ошибок</h4>
-        <p style="font-size: 12px; color: #666; margin-bottom: 10px;">
-            Слова с возможными ошибками в склонениях/спряжениях
-        </p>
-        <div id="errorList">
-            <!-- Ошибки будут добавляться динамически -->
+    <!-- Леша Буковкин для сбора ошибок -->
+    <div class="lesha-container" id="leshaContainer">
+        <div class="lesha-character">
+            <img src="Lesha-1.png" alt="Леша Буковкин" class="lesha-image">
+            <div class="lesha-speech">
+                <p>Привет! Я Леша Буковкин, виртуальный ассистент студии Лексикон!</p>
+                <p>Если я ошибся со склонением или спряжением слова, просто перетащите его ко мне!</p>
+            </div>
         </div>
-        <div style="margin-top: 10px; text-align: center;">
-            <button class="reset-btn" onclick="clearErrorBasket()" style="background: #6c757d; font-size: 12px;">Очистить корзинку</button>
-            <button class="reset-btn" onclick="exportErrors()" style="background: #17a2b8; font-size: 12px;">Экспорт ошибок</button>
+        <div class="lesha-drop-zone" id="leshaDropZone">
+            <p>Перетащите сюда слово, если я ошибся</p>
+        </div>
+    </div>
+
+    <!-- Кнопка входа в админ-панель -->
+    <button class="admin-btn" onclick="showAdminLogin()" id="adminBtn">🔧 Админ</button>
+
+    <!-- Административная панель -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-panel-content">
+            <div class="admin-login" id="adminLogin">
+                <h2>🔧 Административная панель</h2>
+                <p>Войдите в систему для управления ошибками</p>
+                <input type="text" id="adminUsername" placeholder="Логин" value="admin">
+                <input type="password" id="adminPassword" placeholder="Пароль">
+                <button onclick="loginAdmin()">Войти</button>
+                <button onclick="hideAdminPanel()">Отмена</button>
+            </div>
+            
+            <div class="admin-dashboard hidden" id="adminDashboard">
+                <h2>📊 Панель управления ошибками</h2>
+                <div style="margin-bottom: 20px;">
+                    <button onclick="refreshErrors()" style="background: #17a2b8; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">🔄 Обновить</button>
+                    <button onclick="exportErrorsToFile()" style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-left: 10px;">📥 Экспорт</button>
+                    <button onclick="logoutAdmin()" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-left: 10px;">🚪 Выйти</button>
+                </div>
+                
+                <div id="errorsList">
+                    <p>Загружаем ошибки...</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -497,7 +637,8 @@
         let currentWords = []; // Текущие слова в упражнении
         let morphologyCorpus = null; // Полный морфологический корпус
         let filteredWordsCache = {}; // Кэш отфильтрованных слов для производительности
-        let errorBasket = []; // Корзинка для ошибок
+        let reportedErrors = []; // Ошибки, переданные Леше
+        let isAdminLoggedIn = false;
 
         // Сохраняем исходные данные для восстановления
         const originalExerciseData = {
@@ -862,7 +1003,7 @@
         // Инициализация
         document.addEventListener('DOMContentLoaded', async function() {
             setupExerciseButtons();
-            
+            setupLeshaDropZone();
             
             // Загружаем морфологический корпус
             const corpusLoaded = await loadMorphologyCorpus();
@@ -1129,46 +1270,119 @@
             return shuffled;
         }
 
-        // Функции для работы с корзинкой ошибок
-        function addToErrorBasket(word, userCategory, correctCategory, exerciseType) {
+        // Функции для работы с Лешей Буковкиным
+        function setupLeshaDropZone() {
+            const leshaDropZone = document.getElementById('leshaDropZone');
+            
+            leshaDropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+            
+            leshaDropZone.addEventListener('dragleave', function(e) {
+                this.classList.remove('drag-over');
+            });
+            
+            leshaDropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+                
+                if (draggedElement) {
+                    const word = draggedElement.dataset.word;
+                    const category = parseInt(draggedElement.dataset.category);
+                    
+                    // Добавляем ошибку в список
+                    addErrorToLesha(word, category, currentExercise);
+                    
+                    // Удаляем слово из упражнения
+                    draggedElement.remove();
+                    
+                    // Показываем сообщение от Леши
+                    showLeshaMessage(`Спасибо! Я получил слово "${word}" и передам его на рассмотрение.`);
+                }
+            });
+        }
+
+        function addErrorToLesha(word, userCategory, exerciseType) {
             const error = {
                 word: word,
                 userCategory: userCategory,
-                correctCategory: correctCategory,
+                correctCategory: determineCorrectCategory(word, exerciseType),
                 exerciseType: exerciseType,
-                timestamp: new Date().toLocaleString(),
-                id: Date.now() + Math.random()
+                timestamp: new Date().toISOString(),
+                id: Date.now() + Math.random(),
+                status: 'pending'
             };
             
-            // Проверяем, нет ли уже такого слова в корзинке
-            const existingIndex = errorBasket.findIndex(e => e.word === word && e.exerciseType === exerciseType);
-            if (existingIndex === -1) {
-                errorBasket.push(error);
-                updateErrorBasketDisplay();
-                console.log(`Добавлено в корзинку ошибок: ${word}`);
+            reportedErrors.push(error);
+            console.log('Ошибка передана Леше:', error);
+            
+            // Сохраняем в localStorage для админ-панели
+            localStorage.setItem('lexicon_errors', JSON.stringify(reportedErrors));
+        }
+
+        function showLeshaMessage(message) {
+            const speech = document.querySelector('.lesha-speech');
+            const originalContent = speech.innerHTML;
+            
+            speech.innerHTML = `<p>${message}</p>`;
+            
+            setTimeout(() => {
+                speech.innerHTML = originalContent;
+            }, 3000);
+        }
+
+        // Функции административной панели
+        function showAdminLogin() {
+            document.getElementById('adminPanel').style.display = 'flex';
+        }
+
+        function hideAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+
+        function loginAdmin() {
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (username === 'admin' && password === '89139985310') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLogin').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                loadErrorsForAdmin();
+            } else {
+                alert('Неверный логин или пароль!');
             }
         }
 
-        function updateErrorBasketDisplay() {
-            const basketCount = document.getElementById('basketCount');
-            const errorList = document.getElementById('errorList');
-            
-            // Обновляем счетчик
-            basketCount.textContent = errorBasket.length;
-            if (errorBasket.length > 0) {
-                basketCount.classList.remove('hidden');
-            } else {
-                basketCount.classList.add('hidden');
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminLogin').classList.remove('hidden');
+            document.getElementById('adminDashboard').classList.add('hidden');
+            hideAdminPanel();
+        }
+
+        function loadErrorsForAdmin() {
+            // Загружаем ошибки из localStorage
+            const savedErrors = localStorage.getItem('lexicon_errors');
+            if (savedErrors) {
+                reportedErrors = JSON.parse(savedErrors);
             }
             
-            // Обновляем список ошибок
-            if (errorBasket.length === 0) {
-                errorList.innerHTML = '<p style="color: #666; font-style: italic;">Корзинка пуста</p>';
+            displayErrorsForAdmin();
+        }
+
+        function displayErrorsForAdmin() {
+            const errorsList = document.getElementById('errorsList');
+            
+            if (reportedErrors.length === 0) {
+                errorsList.innerHTML = '<p>Ошибок пока нет. Все работает отлично! 🎉</p>';
                 return;
             }
             
-            let html = '';
-            errorBasket.forEach(error => {
+            let html = '<div class="error-list">';
+            
+            reportedErrors.forEach(error => {
                 const exercise = exerciseData[error.exerciseType];
                 const userCategoryName = exercise.categories[error.userCategory]?.name || 'Неизвестно';
                 const correctCategoryName = exercise.categories[error.correctCategory]?.name || 'Неизвестно';
@@ -1177,52 +1391,70 @@
                     <div class="error-item">
                         <div class="error-word">${error.word}</div>
                         <div class="error-details">
-                            Упражнение: ${exercise.title}<br>
-                            Выбрано: ${userCategoryName}<br>
-                            Правильно: ${correctCategoryName}<br>
-                            <small>${error.timestamp}</small>
+                            <strong>Упражнение:</strong> ${exercise.title}<br>
+                            <strong>Пользователь выбрал:</strong> ${userCategoryName}<br>
+                            <strong>Система определила:</strong> ${correctCategoryName}<br>
+                            <strong>Время:</strong> ${new Date(error.timestamp).toLocaleString()}<br>
+                            <strong>Статус:</strong> ${error.status === 'pending' ? '⏳ Ожидает исправления' : '✅ Исправлено'}
                         </div>
-                        <button class="remove-error-btn" onclick="removeFromErrorBasket(${error.id})">×</button>
+                        
+                        ${error.status === 'pending' ? `
+                            <div class="correction-form">
+                                <h4>Исправить слово:</h4>
+                                <select id="correctDeclension_${error.id}">
+                                    <option value="1st">1-е склонение</option>
+                                    <option value="2nd">2-е склонение</option>
+                                    <option value="3rd">3-е склонение</option>
+                                    <option value="indeclinable">Несклоняемое</option>
+                                    <option value="heteroclitic">Разносклоняемое</option>
+                                </select>
+                                <select id="correctConjugation_${error.id}">
+                                    <option value="1st">1-е спряжение</option>
+                                    <option value="2nd">2-е спряжение</option>
+                                </select>
+                                <button onclick="correctWord('${error.id}')">✅ Исправить в базе</button>
+                            </div>
+                        ` : ''}
                     </div>
                 `;
             });
             
-            errorList.innerHTML = html;
+            html += '</div>';
+            errorsList.innerHTML = html;
         }
 
-        function removeFromErrorBasket(errorId) {
-            errorBasket = errorBasket.filter(error => error.id !== errorId);
-            updateErrorBasketDisplay();
-        }
-
-        function toggleErrorBasket() {
-            const basket = document.getElementById('errorBasket');
-            basket.classList.toggle('hidden');
-        }
-
-        function clearErrorBasket() {
-            if (confirm('Очистить корзинку ошибок?')) {
-                errorBasket = [];
-                updateErrorBasketDisplay();
-            }
-        }
-
-        function exportErrors() {
-            if (errorBasket.length === 0) {
-                alert('Корзинка ошибок пуста');
-                return;
-            }
+        function correctWord(errorId) {
+            const error = reportedErrors.find(e => e.id === errorId);
+            if (!error) return;
             
+            const correctDeclension = document.getElementById(`correctDeclension_${errorId}`).value;
+            const correctConjugation = document.getElementById(`correctConjugation_${errorId}`).value;
+            
+            // Обновляем статус ошибки
+            error.status = 'corrected';
+            error.correctedDeclension = correctDeclension;
+            error.correctedConjugation = correctConjugation;
+            error.correctedAt = new Date().toISOString();
+            
+            // Сохраняем изменения
+            localStorage.setItem('lexicon_errors', JSON.stringify(reportedErrors));
+            
+            // Показываем сообщение об успехе
+            alert(`Слово "${error.word}" исправлено в базе данных!`);
+            
+            // Обновляем отображение
+            displayErrorsForAdmin();
+        }
+
+        function refreshErrors() {
+            loadErrorsForAdmin();
+        }
+
+        function exportErrorsToFile() {
             const exportData = {
                 timestamp: new Date().toISOString(),
-                total_errors: errorBasket.length,
-                errors: errorBasket.map(error => ({
-                    word: error.word,
-                    exercise_type: error.exerciseType,
-                    user_category: error.userCategory,
-                    correct_category: error.correctCategory,
-                    timestamp: error.timestamp
-                }))
+                total_errors: reportedErrors.length,
+                errors: reportedErrors
             };
             
             const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
@@ -1234,12 +1466,10 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            
-            console.log('Ошибки экспортированы:', exportData);
         }
 
-        // Модифицируем функцию проверки ответов для добавления в корзинку
-        function checkAnswersWithBasket() {
+        // Обновленная функция проверки ответов
+        function checkAnswers() {
             const exercise = exerciseData[currentExercise];
             const droppedWords = document.querySelectorAll('.dropped-word');
             let correct = 0;
@@ -1268,9 +1498,7 @@
                 } else {
                     wordElement.style.background = '#dc3545';
                     
-                    // Добавляем в корзинку ошибок
                     if (correctCategory >= 0) {
-                        addToErrorBasket(word, category, correctCategory, currentExercise);
                         feedback += `❌ "${word}" должно быть в категории "${exercise.categories[correctCategory].name}"\n`;
                     } else {
                         feedback += `❓ "${word}" - не удалось определить правильную категорию\n`;
@@ -1292,16 +1520,14 @@
                 feedbackElement.textContent = `📚 Есть ошибки. Правильных ответов: ${correct}/${total} (${percentage}%)`;
             }
 
+            // Добавляем сообщение от Леши
+            feedbackElement.textContent += '\n\n💬 Эти ответы старательно подготовил Леша Буковкин, виртуальный ассистент студии Лексикон, но он тоже может ошибаться! Если вы уверены, что он неправильно определил склонение или спряжение слова, отдайте ему это слово обратно - просто перетащите это слово ему в руки.';
+
             if (feedback) {
                 feedbackElement.textContent += '\n\n' + feedback;
             }
 
             feedbackElement.classList.remove('hidden');
-        }
-
-        // Заменяем старую функцию проверки на новую
-        function checkAnswers() {
-            checkAnswersWithBasket();
         }
 
     </script>

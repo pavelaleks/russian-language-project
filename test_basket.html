@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест корзинки ошибок</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        
+        .basket-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .basket-toggle:hover {
+            background: #c82333;
+            transform: scale(1.1);
+        }
+
+        .basket-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ffc107;
+            color: #000;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .error-basket {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            background: #fff;
+            border: 3px solid #dc3545;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            z-index: 9998;
+            max-width: 350px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест корзинки ошибок</h1>
+    <p>Эта страница тестирует функциональность корзинки ошибок.</p>
+    
+    <button class="test-button" onclick="addTestError()">Добавить тестовую ошибку</button>
+    <button class="test-button" onclick="toggleErrorBasket()">Показать/скрыть корзинку</button>
+    <button class="test-button" onclick="clearErrors()">Очистить корзинку</button>
+
+    <!-- Корзинка для ошибок -->
+    <button class="basket-toggle" onclick="toggleErrorBasket()" id="basketToggle">
+        🗑️
+        <span class="basket-count hidden" id="basketCount">0</span>
+    </button>
+
+    <div class="error-basket hidden" id="errorBasket">
+        <h4>🔍 Корзинка ошибок</h4>
+        <p style="font-size: 12px; color: #666; margin-bottom: 10px;">
+            Слова с возможными ошибками в склонениях/спряжениях
+        </p>
+        <div id="errorList">
+            <p style="color: #666; font-style: italic;">Корзинка пуста</p>
+        </div>
+        <div style="margin-top: 10px; text-align: center;">
+            <button onclick="clearErrors()" style="background: #6c757d; color: white; border: none; padding: 5px 10px; border-radius: 3px; font-size: 12px;">Очистить корзинку</button>
+        </div>
+    </div>
+
+    <script>
+        let errorBasket = [];
+        let errorId = 0;
+
+        function addTestError() {
+            const error = {
+                word: 'тестовое слово ' + (++errorId),
+                userCategory: 0,
+                correctCategory: 1,
+                exerciseType: 'declension',
+                timestamp: new Date().toLocaleString(),
+                id: Date.now() + Math.random()
+            };
+            
+            errorBasket.push(error);
+            updateErrorBasketDisplay();
+            console.log('Добавлена тестовая ошибка:', error);
+        }
+
+        function updateErrorBasketDisplay() {
+            const basketCount = document.getElementById('basketCount');
+            const errorList = document.getElementById('errorList');
+            
+            // Обновляем счетчик
+            basketCount.textContent = errorBasket.length;
+            if (errorBasket.length > 0) {
+                basketCount.classList.remove('hidden');
+            } else {
+                basketCount.classList.add('hidden');
+            }
+            
+            // Обновляем список ошибок
+            if (errorBasket.length === 0) {
+                errorList.innerHTML = '<p style="color: #666; font-style: italic;">Корзинка пуста</p>';
+                return;
+            }
+            
+            let html = '';
+            errorBasket.forEach(error => {
+                html += `
+                    <div style="background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; padding: 8px; margin-bottom: 8px; font-size: 14px;">
+                        <div style="font-weight: bold; color: #721c24;">${error.word}</div>
+                        <div style="color: #721c24; font-size: 12px; margin-top: 4px;">
+                            Упражнение: Склонение существительных<br>
+                            Выбрано: 1-е склонение<br>
+                            Правильно: 2-е склонение<br>
+                            <small>${error.timestamp}</small>
+                        </div>
+                        <button onclick="removeError(${error.id})" style="background: #dc3545; color: white; border: none; border-radius: 3px; padding: 2px 6px; font-size: 12px; cursor: pointer; float: right;">×</button>
+                    </div>
+                `;
+            });
+            
+            errorList.innerHTML = html;
+        }
+
+        function removeError(errorId) {
+            errorBasket = errorBasket.filter(error => error.id !== errorId);
+            updateErrorBasketDisplay();
+        }
+
+        function toggleErrorBasket() {
+            const basket = document.getElementById('errorBasket');
+            basket.classList.toggle('hidden');
+        }
+
+        function clearErrors() {
+            errorBasket = [];
+            updateErrorBasketDisplay();
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            updateErrorBasketDisplay();
+            console.log('Тестовая страница загружена');
+        });
+    </script>
+</body>
+</html>
