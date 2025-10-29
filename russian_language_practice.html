@@ -330,6 +330,12 @@
             border: none;
             display: block;
             background: transparent;
+            /* Убираем белый фон изображения с помощью CSS */
+            filter: contrast(1.5) brightness(1.2) saturate(1.1);
+            /* Создаем эффект "вырезания" белого фона */
+            mix-blend-mode: multiply;
+            /* Дополнительная обработка для удаления белого фона */
+            background-blend-mode: multiply;
         }
 
         .lesha-image:hover {
