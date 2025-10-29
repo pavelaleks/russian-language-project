@@ -324,7 +324,7 @@
         }
 
         .lesha-image {
-            width: 180px;
+            width: 220px;
             height: auto;
             cursor: grab;
             transition: all 0.3s ease;
@@ -334,6 +334,11 @@
             display: block;
             background: transparent;
             outline: none;
+            /* Убираем белый фон изображения */
+            mix-blend-mode: multiply;
+            /* Альтернативный способ - маска для удаления белого фона */
+            -webkit-mask: linear-gradient(black, black);
+            mask: linear-gradient(black, black);
         }
 
         .lesha-image:hover {
@@ -348,7 +353,7 @@
 
         .lesha-speech {
             position: absolute;
-            bottom: 200px;
+            bottom: 240px;
             right: 0;
             background: #fff;
             border: 2px solid #4A90E2;
@@ -399,31 +404,6 @@
             border-left: 8px solid transparent;
             border-right: 8px solid transparent;
             border-top: 8px solid #4A90E2;
-        }
-
-        .lesha-telegram {
-            position: absolute;
-            bottom: -30px;
-            right: 0;
-            left: 0;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 8px;
-            border-radius: 10px 10px 0 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        }
-
-        .telegram-link {
-            color: #4A90E2;
-            text-decoration: none;
-            font-size: 11px;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .telegram-link:hover {
-            color: #357ABD;
-            text-decoration: underline;
         }
 
         .admin-btn {
@@ -647,11 +627,6 @@
             <p>Если я ошибся со склонением или спряжением слова, просто перетащите его на меня!</p>
         </div>
         <img src="Lesha-1.png" alt="Леша Буковкин" class="lesha-image" id="leshaImage">
-        <div class="lesha-telegram">
-            <a href="https://t.me/lexicon_studio" target="_blank" class="telegram-link">
-                📢 Подписывайтесь на наш Telegram канал!
-            </a>
-        </div>
     </div>
 
     <!-- Кнопка входа в админ-панель -->
