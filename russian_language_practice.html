@@ -227,11 +227,19 @@
             border-radius: 6px;
             margin: 5px;
             display: inline-block;
-            cursor: pointer;
+            cursor: grab;
+            transition: all 0.3s ease;
+            user-select: none;
         }
 
         .dropped-word:hover {
             background: #218838;
+            transform: scale(1.05);
+        }
+
+        .dropped-word.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
         }
 
         .feedback {
@@ -296,13 +304,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #fff;
-            border: 3px solid #28a745;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             z-index: 9998;
-            max-width: 300px;
             animation: slideInUp 0.5s ease-out;
         }
 
@@ -317,55 +319,61 @@
             }
         }
 
-        .lesha-character {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
+        .lesha-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #28a745;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
-        .lesha-image {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin-right: 15px;
-            border: 2px solid #28a745;
+        .lesha-image:hover {
+            transform: scale(1.1);
+            border-color: #155724;
+        }
+
+        .lesha-image.drag-over {
+            background: #d4edda;
+            border-color: #155724;
+            transform: scale(1.15);
         }
 
         .lesha-speech {
-            flex: 1;
-        }
-
-        .lesha-speech p {
-            margin: 0;
+            position: absolute;
+            bottom: 130px;
+            right: 0;
+            background: #fff;
+            border: 2px solid #28a745;
+            border-radius: 15px;
+            padding: 15px;
+            max-width: 250px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             font-size: 12px;
             color: #333;
             line-height: 1.4;
-        }
-
-        .lesha-drop-zone {
-            background: #f8f9fa;
-            border: 2px dashed #28a745;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
             transition: all 0.3s ease;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            pointer-events: none;
         }
 
-        .lesha-drop-zone.drag-over {
-            background: #d4edda;
-            border-color: #155724;
-            transform: scale(1.05);
+        .lesha-speech.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .lesha-drop-zone p {
-            margin: 0;
-            color: #28a745;
-            font-weight: 500;
-            font-size: 14px;
+        .lesha-speech::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 20px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #28a745;
         }
 
         .admin-btn {
@@ -588,16 +596,11 @@
 
     <!-- Леша Буковкин для сбора ошибок -->
     <div class="lesha-container" id="leshaContainer">
-        <div class="lesha-character">
-            <img src="Lesha-1.png" alt="Леша Буковкин" class="lesha-image">
-            <div class="lesha-speech">
-                <p>Привет! Я Леша Буковкин, виртуальный ассистент студии Лексикон!</p>
-                <p>Если я ошибся со склонением или спряжением слова, просто перетащите его ко мне!</p>
-            </div>
+        <div class="lesha-speech" id="leshaSpeech">
+            <p>Привет! Я Леша Буковкин, виртуальный ассистент студии Лексикон!</p>
+            <p>Если я ошибся со склонением или спряжением слова, просто перетащите его на меня!</p>
         </div>
-        <div class="lesha-drop-zone" id="leshaDropZone">
-            <p>Перетащите сюда слово, если я ошибся</p>
-        </div>
+        <img src="Lesha-1.png" alt="Леша Буковкин" class="lesha-image" id="leshaImage">
     </div>
 
     <!-- Кнопка входа в админ-панель -->
@@ -646,11 +649,11 @@
                 title: 'Склонение существительных',
                 words: ['стол', 'окно', 'мама', 'папа', 'книга', 'ручка', 'дом', 'дерево', 'кофе', 'пальто', 'кино', 'такси', 'время', 'имя', 'племя', 'знамя'],
                 categories: [
-                    { name: '1-е склонение (м.р., ж.р. на -а/-я)', examples: 'папа, мама' },
-                    { name: '2-е склонение (м.р., с.р. на -о/-е)', examples: 'стол, окно' },
-                    { name: '3-е склонение (ж.р. на мягкий знак)', examples: 'ночь, мышь' },
-                    { name: 'Несклоняемые существительные', examples: 'кофе, пальто, кино' },
-                    { name: 'Разносклоняемые существительные', examples: 'время, имя, племя' }
+                    { name: '1-е склонение' },
+                    { name: '2-е склонение' },
+                    { name: '3-е склонение' },
+                    { name: 'Несклоняемые существительные' },
+                    { name: 'Разносклоняемые существительные' }
                 ],
                 answers: {
                     'папа': 0, 'мама': 0, 'книга': 0,
@@ -664,8 +667,8 @@
                 title: 'Спряжение глаголов',
                 words: ['читать', 'писать', 'говорить', 'смотреть', 'слушать', 'думать', 'работать', 'учиться'],
                 categories: [
-                    { name: '1-е спряжение', examples: 'читать, писать' },
-                    { name: '2-е спряжение', examples: 'говорить, смотреть' }
+                    { name: '1-е спряжение' },
+                    { name: '2-е спряжение' }
                 ],
                 answers: {
                     'читать': 0, 'писать': 0, 'слушать': 0, 'работать': 0,
@@ -1060,7 +1063,6 @@
                 html += `
                     <div class="drop-zone" data-category="${index}">
                         <h4>${category.name}</h4>
-                        <small style="color: #666;">${category.examples}</small>
                     </div>
                 `;
             });
@@ -1128,7 +1130,12 @@
                 droppedWord.textContent = word;
                 droppedWord.dataset.word = word;
                 droppedWord.dataset.category = categoryIndex;
+                droppedWord.draggable = true;
                 droppedWord.onclick = () => removeWord(droppedWord);
+                
+                // Добавляем обработчики drag для возможности перетаскивания к Леше
+                droppedWord.addEventListener('dragstart', handleDragStart);
+                droppedWord.addEventListener('dragend', handleDragEnd);
                 
                 this.appendChild(droppedWord);
                 draggedElement.remove();
@@ -1272,18 +1279,18 @@
 
         // Функции для работы с Лешей Буковкиным
         function setupLeshaDropZone() {
-            const leshaDropZone = document.getElementById('leshaDropZone');
+            const leshaImage = document.getElementById('leshaImage');
             
-            leshaDropZone.addEventListener('dragover', function(e) {
+            leshaImage.addEventListener('dragover', function(e) {
                 e.preventDefault();
                 this.classList.add('drag-over');
             });
             
-            leshaDropZone.addEventListener('dragleave', function(e) {
+            leshaImage.addEventListener('dragleave', function(e) {
                 this.classList.remove('drag-over');
             });
             
-            leshaDropZone.addEventListener('drop', function(e) {
+            leshaImage.addEventListener('drop', function(e) {
                 e.preventDefault();
                 this.classList.remove('drag-over');
                 
@@ -1322,13 +1329,17 @@
         }
 
         function showLeshaMessage(message) {
-            const speech = document.querySelector('.lesha-speech');
+            const speech = document.getElementById('leshaSpeech');
             const originalContent = speech.innerHTML;
             
             speech.innerHTML = `<p>${message}</p>`;
+            speech.classList.add('show');
             
             setTimeout(() => {
-                speech.innerHTML = originalContent;
+                speech.classList.remove('show');
+                setTimeout(() => {
+                    speech.innerHTML = originalContent;
+                }, 300);
             }, 3000);
         }
 
