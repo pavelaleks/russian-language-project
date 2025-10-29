@@ -346,14 +346,16 @@
             bottom: 220px;
             right: 0;
             background: #fff;
-            border: 2px solid #28a745;
+            border: 2px solid #4A90E2;
             border-radius: 15px;
-            padding: 15px;
-            max-width: 280px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            font-size: 12px;
+            padding: 20px;
+            max-width: 320px;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            font-size: 13px;
             color: #333;
-            line-height: 1.4;
+            line-height: 1.5;
             opacity: 0;
             transform: translateY(10px);
             transition: all 0.3s ease;
@@ -362,7 +364,23 @@
 
         .lesha-speech.show {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
+            animation: speechBubble 0.4s ease-out;
+        }
+
+        @keyframes speechBubble {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.8);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(-5px) scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .lesha-speech::after {
@@ -374,7 +392,7 @@
             height: 0;
             border-left: 8px solid transparent;
             border-right: 8px solid transparent;
-            border-top: 8px solid #28a745;
+            border-top: 8px solid #4A90E2;
         }
 
         .lesha-telegram {
@@ -1325,15 +1343,21 @@
             const speech = document.getElementById('leshaSpeech');
             const originalContent = speech.innerHTML;
             
-            speech.innerHTML = `<p>${message}</p>`;
+            // Разбиваем сообщение на абзацы для лучшего отображения
+            const paragraphs = message.split('\n\n').map(p => `<p>${p}</p>`).join('');
+            speech.innerHTML = paragraphs;
             speech.classList.add('show');
+            
+            // Увеличиваем время показа для длинных сообщений
+            const messageLength = message.length;
+            const showTime = Math.max(5000, messageLength * 50); // Минимум 5 секунд, плюс время на чтение
             
             setTimeout(() => {
                 speech.classList.remove('show');
                 setTimeout(() => {
                     speech.innerHTML = originalContent;
                 }, 300);
-            }, 3000);
+            }, showTime);
         }
 
         // Функции административной панели
@@ -1517,7 +1541,7 @@
                 
                 if (correctCategory === category) {
                     correct++;
-                    wordElement.style.background = '#28a745';
+                    wordElement.style.background = '#F5A623';
                 } else {
                     wordElement.style.background = '#dc3545';
                     
@@ -1530,27 +1554,28 @@
             }
 
             const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
-            const feedbackElement = document.getElementById('feedback');
+            
+            // Формируем сообщение от Леши
+            let leshaMessage = '';
             
             if (percentage === 100) {
-                feedbackElement.className = 'feedback correct';
-                feedbackElement.textContent = `🎉 Отлично! Все ответы правильные! (${correct}/${total})`;
+                leshaMessage = `🎉 Отлично! Все ответы правильные! (${correct}/${total})\n\nЯ старательно подготовил эти ответы, но если вы считаете, что я ошибся со склонением или спряжением слова, просто перетащите его на меня!`;
             } else if (percentage >= 70) {
-                feedbackElement.className = 'feedback correct';
-                feedbackElement.textContent = `👍 Хорошо! Правильных ответов: ${correct}/${total} (${percentage}%)`;
+                leshaMessage = `👍 Хорошо! Правильных ответов: ${correct}/${total} (${percentage}%)\n\nЯ старательно подготовил эти ответы, но если вы считаете, что я ошибся со склонением или спряжением слова, просто перетащите его на меня!`;
             } else {
-                feedbackElement.className = 'feedback incorrect';
-                feedbackElement.textContent = `📚 Есть ошибки. Правильных ответов: ${correct}/${total} (${percentage}%)`;
+                leshaMessage = `📚 Есть ошибки. Правильных ответов: ${correct}/${total} (${percentage}%)\n\nЯ старательно подготовил эти ответы, но если вы считаете, что я ошибся со склонением или спряжением слова, просто перетащите его на меня!`;
             }
-
-            // Добавляем сообщение от Леши
-            feedbackElement.textContent += '\n\n💬 Эти ответы старательно подготовил Леша Буковкин, виртуальный ассистент студии Лексикон, но он тоже может ошибаться! Если вы уверены, что он неправильно определил склонение или спряжение слова, отдайте ему это слово обратно - просто перетащите это слово ему в руки.';
 
             if (feedback) {
-                feedbackElement.textContent += '\n\n' + feedback;
+                leshaMessage += '\n\n' + feedback;
             }
 
-            feedbackElement.classList.remove('hidden');
+            // Показываем результат в облачке Леши
+            showLeshaMessage(leshaMessage);
+            
+            // Скрываем старое поле обратной связи
+            const feedbackElement = document.getElementById('feedback');
+            feedbackElement.classList.add('hidden');
         }
 
     </script>
