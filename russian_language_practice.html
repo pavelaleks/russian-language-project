@@ -358,9 +358,9 @@
             background: rgba(255, 255, 255, 0.95);
             border: 2px solid #4A90E2;
             border-radius: 15px;
-            padding: 25px;
-            max-width: 380px;
-            max-height: 300px;
+            padding: 30px;
+            max-width: 450px;
+            max-height: 400px;
             overflow-y: auto;
             box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             font-size: 15px;
@@ -1342,7 +1342,7 @@
             
             // Увеличиваем время показа для длинных сообщений
             const messageLength = message.length;
-            const showTime = Math.max(7000, messageLength * 70); // Минимум 7 секунд, плюс время на чтение
+            const showTime = Math.max(8000, messageLength * 80); // Минимум 8 секунд, плюс время на чтение
             
             setTimeout(() => {
                 speech.classList.remove('show');
