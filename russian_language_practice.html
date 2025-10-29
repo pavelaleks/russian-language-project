@@ -381,6 +381,45 @@
             animation: speechBubble 0.4s ease-out;
         }
 
+        /* Стили для выделения текста в сообщениях Леши */
+        .lesha-speech .lesha-result {
+            color: #4A90E2;
+            font-weight: bold;
+        }
+
+        .lesha-speech .lesha-stats {
+            color: #F5A623;
+            font-weight: bold;
+        }
+
+        .lesha-speech .lesha-percentage {
+            color: #F5A623;
+            font-weight: bold;
+        }
+
+        .lesha-speech .lesha-error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .lesha-speech .lesha-quote {
+            color: #4A90E2;
+            font-weight: bold;
+        }
+
+        .lesha-speech .lesha-intro {
+            color: #28a745;
+            font-style: italic;
+        }
+
+        .lesha-speech .lesha-action {
+            color: #F5A623;
+            font-weight: bold;
+            background: rgba(245, 166, 35, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
         @keyframes speechBubble {
             0% {
                 opacity: 0;
@@ -1492,15 +1531,15 @@
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');
             
-            // Затем применяем цветовое выделение
+            // Затем применяем цветовое выделение, но используем CSS классы вместо inline стилей
             let processedMessage = escapedMessage
-                .replace(/(🎉 Отлично!|👍 Хорошо!|📚 Есть ошибки\.)/g, '<span style="color: #4A90E2; font-weight: bold;">$1</span>')
-                .replace(/(\d+\/\d+)/g, '<span style="color: #F5A623; font-weight: bold;">$1</span>')
-                .replace(/(\d+%)/g, '<span style="color: #F5A623; font-weight: bold;">$1</span>')
-                .replace(/(❌|❓)/g, '<span style="color: #dc3545; font-weight: bold;">$1</span>')
-                .replace(/(".*?")/g, '<span style="color: #4A90E2; font-weight: bold;">$1</span>')
-                .replace(/(Я старательно подготовил)/g, '<span style="color: #28a745; font-style: italic;">$1</span>')
-                .replace(/(просто перетащите его на меня)/g, '<span style="color: #F5A623; font-weight: bold; background: rgba(245, 166, 35, 0.2); padding: 2px 6px; border-radius: 4px;">$1</span>');
+                .replace(/(🎉 Отлично!|👍 Хорошо!|📚 Есть ошибки\.)/g, '<span class="lesha-result">$1</span>')
+                .replace(/(\d+\/\d+)/g, '<span class="lesha-stats">$1</span>')
+                .replace(/(\d+%)/g, '<span class="lesha-percentage">$1</span>')
+                .replace(/(❌|❓)/g, '<span class="lesha-error">$1</span>')
+                .replace(/(".*?")/g, '<span class="lesha-quote">$1</span>')
+                .replace(/(Я старательно подготовил)/g, '<span class="lesha-intro">$1</span>')
+                .replace(/(просто перетащите его на меня)/g, '<span class="lesha-action">$1</span>');
             
             // Разбиваем сообщение на абзацы для лучшего отображения
             const paragraphs = processedMessage.split('\n').map(p => p.trim()).filter(p => p).map(p => `<p>${p}</p>`).join('');
